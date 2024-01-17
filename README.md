@@ -31,3 +31,13 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
     ```
 
 - 부모 Component에서 자식 Component로 전달하는 데이터를 props라고 지칭
+
+- Project \<Tic Tac Toe> : 
+    
+    - Component: Game, Board, Square
+
+    - [핵심] 🎉Game이 유일하게 statue를 가지는 Component -> 게임 데이터가 우측의 button과 좌측의 board간 연동을 위한 "최소 공통 부모"이기 때문 🎉
+
+    - 부모에서 자식에게 Handler를 넘겨주고, 자식에서 handler를 부착하고 이벤트를 발생시키면 부모의 statue(상태값) 업데이트 
+
+      -> 자동으로 자식들도 상태 업데이트
