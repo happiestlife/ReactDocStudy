@@ -3,11 +3,12 @@ React 공식 문서 사이트에서 배운 내용 학습 Repository
 
 URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
-## Section 1
+<details>
+<summary style="font-size: 25px">Section 1</summary>
 - React Component들은 일반 태그와 구분하기 위해 반드시 대문자로 시작해야 한다. 
 
   그렇지 않았을 경우, 다음과 같은 오류 발생
-  ![Alt text](image.png)
+  ![Alt text](./img/image.png)
 
 - React 태그는 한번에 하나의 Component를 반환해야 한다. 그렇지 않을 경우에는  태그로 \<div> 혹은 \<>태그로 감싸야 한다.
 
@@ -29,7 +30,9 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
   없다면 오류 발생 및 index를 key로써 사용
 
-  ![Alt text](image-1.png)
+  ![Alt text](./img/image-1.png)
+
+
   다음과 같이 Component를 연속적으로 선언할 때에는 오류 구문이 발생하지 않지만, 리스트 타입으로 Component를 매핑시키려 할 때 ({리스트}) 오류 발생
 
   또한, sibling 간에 unique하지 못한 값을 사용한다면 추후, update / delete 시 문제가 발생할 확률 👆
@@ -101,3 +104,4 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
     - 부모에서 자식에게 Handler를 넘겨주고, 자식에서 handler를 부착하고 이벤트를 발생시키면 부모의 statue(상태값) 업데이트 
 
       -> 자동으로 자식들도 상태 업데이트
+</details>
