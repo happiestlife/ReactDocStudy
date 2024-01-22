@@ -3,18 +3,6 @@ import {Navigation} from 'react-minimal-side-navigation';
 import 'react-minimal-side-navigation/lib/ReactMinimalSideNavigation.css';
 import { useNavigate } from 'react-router-dom';
 
-const Bar = styled.div`
-  position: sticky;
-  // top: 200px;
-  width: 13rem;
-  height: 100%;
-  position: fixed;
-  // left: 19rem;
-  // top: 12rem;
-  // transform: translate(1em, 12rem); 
-  border-right: 1px solid black;
-`;
-
 export default function Navigator() {
   const navigate = useNavigate();
 

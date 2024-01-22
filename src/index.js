@@ -1,22 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './style/index.css';
-import Router from './comp/Router.js';
-import App from './comp/App.js';
-import reportWebVitals from './reportWebVitals';
-import {RouterProvider, createBrowserRouter} from 'react-router-dom';
-import Main from './comp/Main.js';
+import MainFrame from './comp/MainFrame.js';
 
+// TODO Main에서 navigate 관리하기 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     {/* <TopMenu></TopMenu> */}
-    <div>
-      {/* <LeftMenu> */}
-        <Router></Router>
-      {/* </LeftMenu> */}
-      <Main></Main>
-    </div>
+    <MainFrame />
+    {/* <Section1ReadMe></Section1ReadMe> */}
   </React.StrictMode>
 );
 

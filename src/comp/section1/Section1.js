@@ -1,5 +1,13 @@
 import Game from './Game.js';
+import Section1ReadMe from './ReadMe.js';
 
-export default function Section1() {
-    return <Game />
-}
+const Section1 = () => {
+    return (
+        <div>
+            <Section1ReadMe />
+            <Game />
+        </div>
+    );
+};
+
+export default Section1;

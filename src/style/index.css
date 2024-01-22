@@ -13,20 +13,28 @@ code {
 }
 
 .sidebar {
-  background-color: #E3ECF1;
+  background-color: #b1ddab;
   border-right: 4px solid #202020;
+
   position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
+
   transition: 0.4s ease;
   color: #202020;
-  height: 100%;
   z-index: 99;
   width: 150px;
+  font-size: 20px;
+  
+  padding: 20px 0px 0px 20px;
 }
 
 .main {
   margin-left: 10px;
-  padding-left: 150px;
+  padding: 20px 0px 0px 180px;
+}
+
+.link{
+  margin: 10px 0px 10px 0px;
 }
