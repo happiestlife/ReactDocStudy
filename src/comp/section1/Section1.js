@@ -1,12 +1,11 @@
 import Game from './Game.js';
-import Section1ReadMe from './ReadMe.js';
 
 const Section1 = () => {
     return (
-        <div>
-            <Section1ReadMe />
+        <>
+            <h1>Tic Tac Toe Game</h1>
             <Game />
-        </div>
+        </>
     );
 };
 

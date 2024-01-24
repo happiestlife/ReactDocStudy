@@ -4,7 +4,7 @@ React 공식 문서 사이트에서 배운 내용 학습 Repository
 URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
 <details>
-<summary style="font-size: 25px">Section 1</summary>
+  <summary style="font-size: 25px">Section 1</summary>
 - React Component들은 일반 태그와 구분하기 위해 반드시 대문자로 시작해야 한다. 
 
   그렇지 않았을 경우, 다음과 같은 오류 발생
@@ -104,4 +104,145 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
     - 부모에서 자식에게 Handler를 넘겨주고, 자식에서 handler를 부착하고 이벤트를 발생시키면 부모의 statue(상태값) 업데이트 
 
       -> 자동으로 자식들도 상태 업데이트
+</details>
+
+<br>
+
+<details>
+  <summary style="font-size: 25px">Section 2</summary>
+
+  ### Your First Component
+  - JSX문법을 활용할 때, Component의 이름의 첫글자가 소문자면 React는 HTML 태그로, 대문자면 React Component로 판단
+
+  - nested 형태로 Component 생성 시, 버그 및 속도 하락 야기 => 따로따로 구현 필요
+
+  - Component import 시 "imprt ~ from './test'"와 같은 형태로도 js 파일 import 가능.
+
+    다만, ~ from './test.js'와 같이 확장자를 붙여주는 것이 native ES Modules에 적합\
+
+  <br>
+
+  ### Writing Markup with JSX
+  - JSX와 React는 서로 별개의 기술. 각각은 따로 사용이 가능하다.
+
+    JSX만을 사용하고 싶다면 babel 라이브러리 설치 필요
+
+  - JSX 문법
+
+    1. 하나의 Root Component가 반한되어야 한다.
+
+        다음과 같이 여러개의 Component를 반환해야 하는 경우, 특정 Tag 혹은 <></>(Fragment) 태그로 감싸야 한다.
+
+        ```
+          <h1>title 1</h1>
+          <h2>title 2</h2>
+          ...
+
+          -> 
+
+          <>
+            <h1>title 1</h1>
+            <h2>title 2</h2>
+          </>
+        ```
+
+        * <></> == \<Fragment>\</Fragment>
+
+          Fragment는 아래의 코드와 같이 리스트를 반환할 때 key 지정을 위해 불필요하게 생성되는 Component 제거를 위해 사용
+          ```
+          function Blog() {
+            return posts.map(post =>
+              <Fragment key={post.id}>
+                <PostTitle title={post.title} />
+                <PostBody body={post.body} />
+              </Fragment>
+            );
+          }
+          ```
+
+    2. 모든 Tag에는 닫힘 문구가 들어가야 한다.
+
+    3. 대부분의 속성들이 Camelcase로 작성된다.
+
+        기존의 class 속성 -> className
+
+
+    기존의 HTML을 JSX 문법으로 전화시키기 위해서는 많은 시간 소요 
+
+    -> https://transform.tools/html-to-jsx 사이트에서 바꾸기
+
+  <br>
+
+  ### Javascript in JSX with Culy Braces
+
+  - JSX 안에서 {변수 / 값}를 사용해 가변적으로 데이터를 넣을 수 있다.
+
+    주로 text / 속성 / Component를 넣는데 사용 (Tag에는 적용 X. Ex. <{tag}>Gregorio Y. Zara's To Do List</{tag}> ) 
+
+  - JSX에서 inline으로 style 지정 시 { key: value } 형식으로 전달 필요 
+    ![Alt text](./img/JSX_inline_CSS.png)
+
+  - JSX 내부에서 값에 대한 모든 연산은 {} 안에서 이루어저야 한다.
+
+    ![Alt text](./img/JSX_operation.png)
+
+    문자인 경우는 따로 따로 선언해서 사용 가능
+
+    ![Alt text](./img/props_text.png)
+
+  <br>
+
+  ### Passing Props to a Component
+
+  - 부모 Component에서 자식 Component로 데이터를 전달하는 방식은 props를 제외한고 존재 X
+
+  전달 방식
+
+  ![Alt text](./img/props.png)
+
+  - desctructuring 문법을 사용하면 default parameter value 지정 가능
+
+  
+
+  - props로 객체의 모든 값들을 전달하고 싶다면 다음과 같이 사용 
+
+    ![Alt text](./img/spread_props.png)
+
+  - [핵심] 🎉아래와 같이 부모 자식간에 JSX 태그로 nested 되어 있다면 부모 Component 자식에 대한 값을 children 인자로 받을 수 있다. 
+
+    ![Alt text](./img/nestedComp.png)    ![Alt text](./img/childrenProps.png)
+
+    🎉 즉, 부모 Component는 상위 Component에 의해서 임의의 자식 Component를 가질 수 있다는 의미. 
+
+  - [핵심] 🎉 리액트를 잘 설계하기 위해서는 Component의 재사용성과 예층 가능성에 초점을 두고 개발 필요
+
+    그렇기 위해서, 자식 Component에서는 부모 Component로부터 받은 props를 절대 변경해서 사용하면 안된다.
+
+    그렇다고 모든 데이터를 부모 Component에서 조작해야 한다는 의미는 X
+
+    자식에서는 전달받은 props를 임의로 데이터를 cud하면 안되고 그 형태를 변형하는 것은 괜찮다. 
+
+    ![Alt text](./img/handleProps.png)
+
+  - props로 전달받은 데이터를 함수의 인자로 넣고 싶다면 {}를 사용하지 않기
+
+<br>
+
+### Conditional Rendering
+
+- React Component에서 null을 반환하면 아무것도 랜더링 되지 않는다. (비추천방식)
+
+- js에서 조건부 랜더링 방식
+
+  1. { 조건식 ? comp1 : comp2 }
+
+  2. { 조건식 && comp }
+
+    js에서는 false에 대해서는 rendering 하지 않는다.
+
+  3. 조건문을 사용하여 변수에 값 삽입 및 활용
+
+
+
+
 </details>
