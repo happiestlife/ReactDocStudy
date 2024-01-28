@@ -242,7 +242,119 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
   3. 조건문을 사용하여 변수에 값 삽입 및 활용
 
+<br>
+
+### Rendering Lists
+
+- Array에 저장된 Component들은 {}에 넣어서 한번에 매핑이 가능
+
+  ``` 
+    const list = {
+      <div key={1}>test1</div>, 
+      <div key={2}>test2</div>,
+      <div key={3}>test3</div>
+    };
+
+    return (
+      <div>{list}</div>
+    );
+  ```
+
+- Array를 Comoponent로 전달하면 반드시 array의 요소들은 서로를 구분해줄 수 있는 key를 가져야 한다.
+
+  이 key는 Component의 이동, 삽입, 삭제에 중요하게 작용 
+
+  Tip. uuid 사용하기
+
+  (자세한 내용은 Section2 내용에서 직접 해보기)
+
+- key의 규칙
+
+  1. key는 sibling 간에 unique해야 한다. (다른 배열 요소들의 key와는 같아도 됨)
+
+  2. key는 한번 할당되면 불변해야 한다. 
+
+      -> re-rendering 시 key를 재생성하면 안된다.
+
+<br>
+
+### Keeping Components Pure
+
+- Pure Function의 조건
+
+  1. 자신의 내부 로직에 대해서만 영향력을 끼치며 함수 호출 전의 변수 및 객체에는 영향을 주지 않는다.
+
+  2. 같은 parameter를 넣었을 때, 같은 result가 도출된다. 
+
+- React는 모든 Component가 pure function으로 구성되어 있다는 가정하에 설계됨 
+
+- React의 Strict Mode는 Component를 만드는 함수를 2번씩 호출
+
+  2개의 결과가 같다면 해당 요소는 pure function으로 판단
+
+  Strict mode를 적용하려면 root Component를 <React.StrictMode>로 감싸주면 된다. 
+
+- Event handler는 Component가 rendering될 때 작동하지 않기 때문에, pure할 필요 x
+
+  만약 적절한 event를 찾지 못했다면 최후의 방법으로 useEffect를 활용해야 한다. 
+
+- React가 purity를 핵심 특징으로 생각하는 이유
+
+  1. Memo를 사용하여 같은 input이 들어온 경우, Component rendering을 생략 가능
+
+  2. side effect가 없기 때문에, deep Component tree를 rendering 하는 중간에 다시 재빠르게 다시 rendering 가능
+  (이전에 존재하던 값들에 영향을 주지 않기 때문 )
+
+  <br/>
+
+
+### Your UI as a Tree
+
+- Render tree는 Component간에 관계를 나타낸다. 
+
+- Dependency tree는 각 모듈이 어떤 모듈을 import 중인지 나타내는 지도
+
+</details>
+
+<br>
+
+<details>
+  <summary style="font-size: 25px">Section 3</summary>
+
+### Responsding to Events
+
+- event handler이름은 관습적으로 "handle + 이벤트 이름"을 가진다.
+
+  Ex) handleStartBtnClick
+
+- <div> / <button> 과 같은 primitive HTML 태그들이 아닌 React Component에 대해서 handler를 붙일 경우, 관습적으로 "on + 이름(첫글자 대문자)"의 형태로 써준다.
+
+- onScroll 이벤트를 제외한 모든 이벤트는 event propagation이 진행된다. (최초 발생 Component부터 상위 Component까지 이벤트가 전파되는 기능)
+
+  onScroll은 해당 Component에서만 발생
+
+- 만약 event를 capture하고 싶다면 상위 컴포넌트들에 onClickCapture과 같은 형식으로 handler 지정
+
+  (event 발생 순서: capture -> event handler(실제) -> event handler(상위) )
+
+- rendering 함수와는 다르게 event handler 함수는 pure할 필요가 없기 때문에 변수의 값 변경과 같은 변화를 주기 용이 
+
+<br />
+
+### State: A Component's Memory
+
+- Component 내부에 선언된 local 지역변수는 Component가 render 됐을 때 초기화 되고, 값이 변경되어도 re-render 되지 않는다. 
 
 
 
+</details>
+
+<br>
+
+<details>
+  <summary style="font-size: 25px">Section 4</summary>
+</details>
+
+<details>
+  <summary style="font-size: 25px">Section 5</summary>
 </details>
