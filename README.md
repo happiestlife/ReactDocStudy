@@ -5,6 +5,7 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
 <details>
   <summary style="font-size: 25px">Section 1</summary>
+  
 - React Component들은 일반 태그와 구분하기 위해 반드시 대문자로 시작해야 한다. 
 
   그렇지 않았을 경우, 다음과 같은 오류 발생
@@ -345,7 +346,81 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
 - Component 내부에 선언된 local 지역변수는 Component가 render 됐을 때 초기화 되고, 값이 변경되어도 re-render 되지 않는다. 
 
+  이 문제를 해결할 수 있는 방법 => useState
 
+- useStatue 사용법
+
+  useState(초깃값): Component의 상태값 선언
+
+  반환값의 첫번째 요소는 상태값을 담을 변수, 두번째 요소는 상태값을 업데이트할 수 있는 setter 함수
+
+  ```
+    function Comp () {
+      const [data, setData] = useState(0);
+    }
+  ```
+
+  setter 함수를 통해 값이 업데이트되면 해당 Component는 자동으로 re-render
+
+- Hook: useEffect와 같이 use로 시작하는 React에서 제공해주는 함수
+
+  hook은 반드신 Component나 custom hook의 최상단에 선언되어야 한다.
+
+  조건문이나 반복문에서 선언한다면 오류 발생
+
+- Component 내부에서 원하는 만큼의 state을 선언 가능
+
+  만약 동일한 성격의 여러 statue가 따로 선언되었다면 하나로 묶어서 관리하는 것이 효과적
+
+- state를 가진 Component를 여러개 선언했다면, 각각의 Component는 각자만의 state를 가진다.(독립적)
+
+- 내부적으로 state가 관리되는 방법
+
+  1. 각 Component마다 state pair를 array 형태로 소유
+
+  2. useState를 사용할때마다 다음 차례의 state를 반환해주고 state 내부 index를 하나 증가
+
+  * 이 문법이 가능한 이유는 위에서 설명했듯이 Hook은 Component의 최상단에 선언되어야 한다는 조건으로 인해 항상 동일한 순서로 hook이 호출되기 때문
+
+  참고: https://medium.com/@ryardley/react-hooks-not-magic-just-arrays-cd4f1857236e
+
+
+<br />
+
+### Render and Commit
+
+- React에서 UI에 Component가 적용되는 프로세스
+
+  1. render를 작동시킨다.
+
+      - render가 trigger되는 조건
+
+        (1) 최초 render 시
+
+          - createRoot 함수가 호출되면서 해당 및 그 하위의 모든 Component의 render 함수 작동
+
+        (2) state 값 update 시 (setter 함수 이용시에만!)
+
+  2. Component를 render한다.
+
+    render가 trigger된 후, React는 Component에게 어떤 형태를 화면에 그릴 것인지 요청
+
+    최초에는 root Component부터 render가 실행되지만 이후에는 render가 trigger된 Component부터 render 실행
+
+    -> Component(1)의 반환값이 이전과 다르다면, 달라진 Component(2)에 대해서 다시 render 실행
+    -> Component(2)의 반환값이 이전과 다르다면, 달라진 Component(3)에 대해서 다시 render 실행
+    -> ... (재귀적으로 실행)
+
+    * 만약 state가 update된 Component가 React Virtual DOM tree의 상단에 위치한다면 성능 하락 야기 
+    -> 최적화 필요
+
+  3. DOM에 rendering한 Component를 반영한다.
+
+    - 최초시, 생성한 모든 DOM node들을 appendChild()를 통해 붙이기
+
+    - re-render시, 달라진 부분만 실제 DOM에 re-render
+
+      -> 효율성 up!
 
 </details>
 
