@@ -12,6 +12,7 @@ const Section2 = () => {
             <SectionComp title={'How to use props'}><Parent /></SectionComp>
             <SectionComp title={'list rendering'} ><ListRendering /></SectionComp>
             <SectionComp title={'Invalid Key rendering'} desc={`첫번째에 새로운 input을 넣으려고 하지만 새로 들어간 첫번째 input에 이전 첫번째의 input 데이터가 들어가는 오류 발생 <br/>-> 잘못된 key 지정으로 발생한 오류`} content={<InvalidKeyRendering />}><InvalidKeyRendering /></SectionComp>
+            <SectionComp title={'State setter only effect to next render'}><Counter/></SectionComp>
         </> 
     );
 };
@@ -75,5 +76,21 @@ const InvalidKeyRendering = () => {
         </div>
     );
 };
+
+function Counter() {
+    const [number, setNumber] = useState(0);
+  
+    return (
+      <>
+        <h1>{number}</h1>
+        <button onClick={() => {
+          setNumber(number + 1);
+          setNumber(number + 3);
+          setNumber(number + 2);
+        }}>+3</button>
+      </>
+    )
+  }
+  
 
 export default Section2;

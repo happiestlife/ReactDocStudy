@@ -181,9 +181,10 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
     주로 text / 속성 / Component를 넣는데 사용 (Tag에는 적용 X. Ex. <{tag}>Gregorio Y. Zara's To Do List</{tag}> ) 
 
   - JSX에서 inline으로 style 지정 시 { key: value } 형식으로 전달 필요 
+
     ![Alt text](./img/JSX_inline_CSS.png)
 
-  - JSX 내부에서 값에 대한 모든 연산은 {} 안에서 이루어저야 한다.
+  - JSX 내부에서 값에 대한 모든 연산은 {} 안에서 이루어저야 한다. (속성 한정)
 
     ![Alt text](./img/JSX_operation.png)
 
@@ -197,9 +198,9 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
   - 부모 Component에서 자식 Component로 데이터를 전달하는 방식은 props를 제외한고 존재 X
 
-  전달 방식
+    전달 방식
 
-  ![Alt text](./img/props.png)
+    ![Alt text](./img/props.png)
 
   - desctructuring 문법을 사용하면 default parameter value 지정 가능
 
@@ -215,7 +216,7 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
     🎉 즉, 부모 Component는 상위 Component에 의해서 임의의 자식 Component를 가질 수 있다는 의미. 
 
-  - [핵심] 🎉 리액트를 잘 설계하기 위해서는 Component의 재사용성과 예층 가능성에 초점을 두고 개발 필요
+  - [핵심] 🎉 리액트를 잘 설계하기 위해서는 Component의 재사용성과 예측 가능성에 초점을 두고 개발 필요
 
     그렇기 위해서, 자식 Component에서는 부모 Component로부터 받은 props를 절대 변경해서 사용하면 안된다.
 
@@ -328,7 +329,7 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
   Ex) handleStartBtnClick
 
-- <div> / <button> 과 같은 primitive HTML 태그들이 아닌 React Component에 대해서 handler를 붙일 경우, 관습적으로 "on + 이름(첫글자 대문자)"의 형태로 써준다.
+- \<div> / \<button> 과 같은 primitive HTML 태그들이 아닌 React Component에 대해서 handler를 붙일 경우, 관습적으로 "on + 이름(첫글자 대문자)"의 형태로 써준다.
 
 - onScroll 이벤트를 제외한 모든 이벤트는 event propagation이 진행된다. (최초 발생 Component부터 상위 Component까지 이벤트가 전파되는 기능)
 
@@ -403,16 +404,16 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
   2. Component를 render한다.
 
-    render가 trigger된 후, React는 Component에게 어떤 형태를 화면에 그릴 것인지 요청
+      render가 trigger된 후, React는 Component에게 어떤 형태를 화면에 그릴 것인지 요청
 
-    최초에는 root Component부터 render가 실행되지만 이후에는 render가 trigger된 Component부터 render 실행
+      최초에는 root Component부터 render가 실행되지만 이후에는 render가 trigger된 Component부터 render 실행
 
-    -> Component(1)의 반환값이 이전과 다르다면, 달라진 Component(2)에 대해서 다시 render 실행
-    -> Component(2)의 반환값이 이전과 다르다면, 달라진 Component(3)에 대해서 다시 render 실행
-    -> ... (재귀적으로 실행)
+      -> Component(1)의 반환값이 이전과 다르다면, 달라진 Component(2)에 대해서 다시 render 실행
+      -> Component(2)의 반환값이 이전과 다르다면, 달라진 Component(3)에 대해서 다시 render 실행
+      -> ... (재귀적으로 실행)
 
-    * 만약 state가 update된 Component가 React Virtual DOM tree의 상단에 위치한다면 성능 하락 야기 
-    -> 최적화 필요
+      * 만약 state가 update된 Component가 React Virtual DOM tree의 상단에 위치한다면 성능 하락 야기 
+      -> 최적화 필요
 
   3. DOM에 rendering한 Component를 반영한다.
 
@@ -421,6 +422,81 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
     - re-render시, 달라진 부분만 실제 DOM에 re-render
 
       -> 효율성 up!
+
+<br/>
+
+
+### State as a Snapshot
+
+- state의 setter는 현재의 state를 다음 render에 적용할 수 있는 값으로 변경할 뿐이다. 
+
+  [핵심] 🎉 현재 진행되는 render에서 여러번의 state의 setter 호출은 마지막의 setter만 state에 영향을 준다.
+
+  ![alt text](./img/call%20state%20setter%20multiple.png)
+
+  다음과 같이 state setter를 동시에 여러번 호출해도 count는 하나씩만 증가
+
+  ![alt text](./img/call%20state%20setter%20multiple%202.png)
+
+  위 사진처럼 setter가 배치되었을 때 button을 누르면 number는 2씩 증가
+
+- 한번의 render 중에는 state값은 setter를 호출하더라도 절대 변경되지 않는다. (snapshot)
+
+  단지 다음번의 render에 대한 state값이 변경될 뿐이다.
+
+  ![alt text](./img/call%20state%20setter%20async.png)
+
+  비동기적으로 render가 화면에 반영한 후 state를 호출하더라도, 해당 render가 진행됐을 때의 state 값으로 render 진행
+
+  <br/>
+
+### Queueing a Series of State Updates
+
+- render 시 state 값이 고정되는 이유는 state 값을 update 동작은 state의 setter가 모두 호출된 후에 실행되기 때문
+
+   => 이런한 형태의 동작 : Batching
+
+  Batching은 안전한 상태에서만 진행된다.
+
+  안전한 상태의 예시) 버튼의 첫번째 클릭이 form을 disable 시키면 두번째 버튼의 클릭은 다시 제출되지 않는다. 
+
+- 만약 render 시 stter를 통한 state 값의 변경을 원한다면 setter의 인자로 값을 변경하는 함수 전달하기 
+
+  ![alt text](./img/changeStateAtSameRender.png)
+
+  setter에 인자로 전달된 함수: updater function
+
+  작동 원리
+
+    1. event handler(setter)가 모두 호출된 후 updater function이 실행되도록 queue에 저장됨
+
+    2. 다음 render 시, queue에 저장된 모든 updater function이 실행되고 최종적으로 update된 state 값을 useState의 반환값으로 전달
+
+  - queue에 전달된 처리 로직 중 update func는 기존의 update가 진행중이던 state의 값을 이어받아 update를 진행하지만, 단순 replace with value 로직은 이전의 update되고 있던 state 값을 무시하고 state에 새로운 값 할당 
+
+  2가지 예시
+
+  - 예시1
+
+    ![alt text](./img/updateFuncEx1.png)
+
+    버튼을 눌렀을 때: number += 6;
+
+    render 시 state 업데이트 과정
+
+    ![alt text](./img/updateFuncEx1Process.png)
+
+  - 예시2
+
+    ![alt text](./img/updateFuncEx2.png)
+
+    버튼을 눌렀을 때: number = 42;
+
+    render 시 state 업데이트 과정
+
+    ![alt text](./img/updateFuncEx2Process.png)
+
+
 
 </details>
 
