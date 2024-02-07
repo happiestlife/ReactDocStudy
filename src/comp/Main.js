@@ -9,8 +9,6 @@ export default function Main() {
         return <Route key={idx} path={'/section/' + (idx + 1)} element={s}></Route>
     });
 
-    console.log(sectionRouters);
-
     return (
         <div className="main">
             <Routes>

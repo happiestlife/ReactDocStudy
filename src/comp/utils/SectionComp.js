@@ -1,5 +1,4 @@
 const SectionComp = ({title, children, desc, content}) => {
-    console.log(content);
     return (
         <>
             <div>

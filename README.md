@@ -460,7 +460,7 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
   안전한 상태의 예시) 버튼의 첫번째 클릭이 form을 disable 시키면 두번째 버튼의 클릭은 다시 제출되지 않는다. 
 
-- 만약 render 시 stter를 통한 state 값의 변경을 원한다면 setter의 인자로 값을 변경하는 함수 전달하기 
+- 만약 render 시 setter를 통한 state 값의 변경을 원한다면 setter의 인자로 값을 변경하는 함수 전달하기 
 
   ![alt text](./img/changeStateAtSameRender.png)
 
@@ -496,6 +496,58 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
     ![alt text](./img/updateFuncEx2Process.png)
 
+<br />
+
+### Updating Objects in State
+
+- state에 저장된 객체를 다룰 때에는 객체를 복사하든, 새롭게 만들든 기존의 state 객체에 영향을 주어서는 안된다.
+
+  다음과 같은 코드는 위험
+
+  ![alt text](./img/treat%20state%20obj%20immutable.png)
+
+  이 코드에서 버튼을 누른다고 해서 render가 실행되지 않고 slient 속에서 state의 값만 변경되기 때문에 코드의 버그를 알아차리기 매우 어렵게 된다. 
+
+-  [핵심] 🎉 객체 state의 특정 property만 변경시켜서 state에 반영하고 싶다면, 새로운 객체를 만들어서 setter에 적용시키기!
+
+- 만약 객체의 특정 property만 변경되고 나머지 property는 이전 값과 동일하다면 ... 문법(spread syntax) 사용하기
+
+  ![alt text](./img/spread%20syntax.png)
+
+  spread syntax는 객체 property의 1-depth까지밖에 영향을 끼치기 때문에 state가 nested된 객체 형태라면 반드시 재귀적으로 호출 필요
+
+- 여러 input의 값 변경에 대한 event handler에 대해서 한번에 적용하고 싶다면 다음과 같은 코드 작성
+
+  ![alt text](./img/spread%20syntax%20util1.png)  ![alt text](./img/spread%20syntax%20util2.png)
+
+  e.target.name은 input의 name 속성에 지정한 값을 나타냄
+
+  ->  여러개의 input change event handler에 동일한 handler 지정 가능 
+
+
+- 만약 state가 deep nested 되어 있고 state의 특정 property만 변경하고 싶다면 immer를 통해 특정 property만 변경하는 코드 작성 가능
+
+  ![alt text](./img/immer%20example.png)
+
+  위의 코드와 같이 useState 대신 useImmer를 통해 사용 가능
+
+  immer는 setter를 통해 변경된 state의 property 값을 "draft"라는 proxy에 저장해두었다가 추후 state에 적용
+
+- React에서 state 객체의 property 값을 변경(mutate)하는 것을 추천하지 않는 강력한 이유
+
+  1. Debugging
+
+      state의 값을 변경하지 않는다면, state의 이전 값들을 확인 가능
+
+  2. Optimization
+
+      대부분의 React 최적한 전략은 이전 props / state 값과 다음 render 시의 props / state 값이 같은 판단하는 것
+
+      state값을 변경하지 않는다면 render는 빠르게 동작 (re-render하지 않기 때문)
+
+  3. New feature
+
+      React에서 개발중인 새로운 기능들은 render 중 state가 변경되지 않는다는 가정하에 개발중
 
 
 </details>

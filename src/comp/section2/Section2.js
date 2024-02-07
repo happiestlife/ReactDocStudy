@@ -12,7 +12,10 @@ const Section2 = () => {
             <SectionComp title={'How to use props'}><Parent /></SectionComp>
             <SectionComp title={'list rendering'} ><ListRendering /></SectionComp>
             <SectionComp title={'Invalid Key rendering'} desc={`첫번째에 새로운 input을 넣으려고 하지만 새로 들어간 첫번째 input에 이전 첫번째의 input 데이터가 들어가는 오류 발생 <br/>-> 잘못된 key 지정으로 발생한 오류`} content={<InvalidKeyRendering />}><InvalidKeyRendering /></SectionComp>
-            <SectionComp title={'State setter only effect to next render'}><Counter/></SectionComp>
+            <SectionComp title={'State setter only effect to next render'}><NotWorkingStateSetter/></SectionComp>
+            <SectionComp title={'State setter work multiple time at this condition'}><WorkingStateSetter /></SectionComp>
+            <SectionComp title={'Treat state obj like immutable'} ><TreatStateObjLikeImmutable /></SectionComp>
+            <SectionComp title={'Spread syntax Only copy one depth'} ><SpreadSyntaxOnlyOneDepth /></SectionComp>
         </> 
     );
 };
@@ -55,7 +58,6 @@ const InvalidKeyRendering = () => {
     const handleResetBtnOnClick = () => {
         setData([]);
     };
-    console.log(data);
 
     const inputs = data.map((d, idx) => {
         return (
@@ -77,7 +79,7 @@ const InvalidKeyRendering = () => {
     );
 };
 
-function Counter() {
+function NotWorkingStateSetter() {
     const [number, setNumber] = useState(0);
   
     return (
@@ -85,12 +87,64 @@ function Counter() {
         <h1>{number}</h1>
         <button onClick={() => {
           setNumber(number + 1);
-          setNumber(number + 3);
           setNumber(number + 2);
+          setNumber(number + 3);
         }}>+3</button>
       </>
     )
-  }
+}
+
+function WorkingStateSetter() {
+    const [number, setNumber] = useState(0);
+  
+    return (
+      <>
+        <h1>{number}</h1>
+        <button onClick={() => {
+          setNumber(n => n + 1);
+          setNumber(n => n + 2);
+          setNumber(n => n + 3);
+        }}>+3</button>
+      </>
+    )
+}
+
+function TreatStateObjLikeImmutable() {
+    const [obj, setObj] = useState({x: 1, y:2});
+
+    return (
+        <>
+            <h1>{obj.x} {obj.y}</h1>
+            <button onClick={() => {
+                obj.x += 10;
+            }}>x + 10</button>
+        </>
+    );
+}
+
+function SpreadSyntaxOnlyOneDepth() {
+    const [data, setDate] = useState({
+        k1: 'value1',
+        k2: {
+            kk1: 'vv1',
+            kk2: 'vv2'
+        }
+    });
+
+    console.log(data);
+
+    return (
+        <>
+            <h1>{data.k1} {data.k2.kk1} {data.k2.kk2}</h1>
+            <button onClick={() => {
+                setDate({
+                    ...data,
+                    kk1: 'vv1 update'
+                });
+            }}>click here</button>
+        </>
+    );
+}
   
 
 export default Section2;
