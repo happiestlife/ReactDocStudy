@@ -16,6 +16,7 @@ const Section2 = () => {
             <SectionComp title={'State setter work multiple time at this condition'}><WorkingStateSetter /></SectionComp>
             <SectionComp title={'Treat state obj like immutable'} ><TreatStateObjLikeImmutable /></SectionComp>
             <SectionComp title={'Spread syntax Only copy one depth'} ><SpreadSyntaxOnlyOneDepth /></SectionComp>
+            <SectionComp title={'Must allocate new array at array state'}> <MustChangeArrayState/ ></SectionComp>
         </> 
     );
 };
@@ -131,8 +132,6 @@ function SpreadSyntaxOnlyOneDepth() {
         }
     });
 
-    console.log(data);
-
     return (
         <>
             <h1>{data.k1} {data.k2.kk1} {data.k2.kk2}</h1>
@@ -142,6 +141,26 @@ function SpreadSyntaxOnlyOneDepth() {
                     kk1: 'vv1 update'
                 });
             }}>click here</button>
+        </>
+    );
+}
+
+function MustChangeArrayState() {
+    const [arr, setArr] = useState(['test1', 'test2', 'test3']);
+
+    return (
+        <>
+            <div>{arr}</div>
+            <button onClick={() => {
+                arr[arr.length - 1] = `broken test`;
+                setArr(arr);
+            }}>Not work</button>
+            <button onClick={() => {
+                setArr([
+                    ...arr.slice(0, arr.length - 1),
+                    'work test'
+                ]);
+            }}>Work</button>
         </>
     );
 }

@@ -549,6 +549,51 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
       React에서 개발중인 새로운 기능들은 render 중 state가 변경되지 않는다는 가정하에 개발중
 
+<br/>
+
+### Updating Arrays in State
+
+- state 객체와 마찬가지로 array도 immutable 하게 다루어야 한다.
+
+  예를 들어, arr[0] = 'test' / push() / pop() 와 같은 형태로는 사용하면 안된다. 
+
+  객체와 동일하게 새로운 배열을 생성해서 update해주기
+  
+  ![alt text](./img/updateArrStateFuncs.png)
+
+
+- 배열에 대한 삽입, 수정, 삭제 방법 
+
+  1. 배열에서 특정 요소 삭제: filter
+
+  2. 배열의 요소 변경: map
+    
+      일부 -> index 사용
+
+  3. 삽입: spread syntax
+
+      중간에 삽입을 원한다면 spread syntax + slice 활용
+
+      ```
+      const updateArr = [
+        ...arr.slice(0, index),
+        , // new component
+        ...arr.slice(index)
+      ];
+      ``` 
+
+- spread syntax는 shallow copy이기 때문에 reference type인 변수에 대해서는 값을 변경하면 안된다. 
+
+  ![alt text](./img/wrongArrStateUpdateEx.png)
+
+  js에서 reference type은 Object인 경우로 array, function, object가 있다. 
+
+- 객체와 동일하게 immer를 사용하여 nested reference type 변수에 대한 수정을 간편하게 할 수 있다. 
+
+  ![alt text](./img/immerWithArr.png)
+
+  Immer가 제공하는 draft라는 객체를 수정하는 것이기 때문에, 기존의 array state는 변경되지 않는다. 
+
 
 </details>
 
