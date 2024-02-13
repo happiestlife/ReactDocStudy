@@ -597,11 +597,227 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
 </details>
 
-<br>
+<br/>
 
 <details>
   <summary style="font-size: 25px">Section 4</summary>
+
+  ### Reacting to Input with State
+
+- 선언적(declarative) 프로그래밍 vs 명령형(imperative) 프로그래밍
+
+  명령형 프로그래밍은 기능의 구현을 위한 "코드의 구조"를 주 관점으로 바라보면서 개발하는 방법
+
+  - 기능에 대한 알고리즘의 구현에 초점
+
+  ```
+    function test(arr){
+      for(let i = 0; i < arr.length; i++){
+        arr[i]++;
+      }
+    }
+  ```
+
+  선언적 프로그래밍은 기능에 초점을 두고 개발하는 방식 
+
+  - 구현보다는 어떤 기능을 구현하는지를 명확하게 보여줌
+
+  ```
+    function test(arr) {
+      return arr.map(i => i + 1);
+    }
+  ```
+
+- 명령형 프로그래밍 방법은 당시의 조건에 따른 모든 상황에 대해 프로그래밍 해야 하기 떄문에 프로그램이 복잡해질수록 관리가 어려워짐\
+
+  -> React가 이 문제를 해결하기 위해서 출시 
+
+  React는 직접적으로 개발자가 UI를 조작하기 보단 "어떤 UI를 표시하고 싶은지"에 집중
+
+  [핵심] 🎉 React는 state 값을 사용해서 UI를 가변적으로 표시
+
+  Ex. isEdit / isSubmitting 와 같은 상태
+
+- React를 통해 선언적 프로그래밍 방법
+
+  1. Component로 보여줄 여러 UI 상태를 식별
+
+      기능 로직 구현 전에 mock 형태의 UI를 먼저 구현
+  
+  2. 어떤 이벤트가 state의 변화를 불러오는지 결정
+
+  3. useState를 통해 state 저장
+
+      어떤 state 변수를 선언해야 할지 애매모호하다면, 모든 visual state에 대해서 변수 선언
+
+  4. 불필요한 state 삭제
+
+      "최소한의" state를 선언하는 것이 핵심
+
+      불필요한 state 제거를 위한 질문
+
+        1. 이 state 변수가 역설(paradox)를 발생시키는가?
+
+            isSubmitting과 isTyping은 동시에 발생할 수 없는 state
+
+            역설을 발생시키지 않는 state는 제거 대상이 될 수 있다.
+
+        2. 이 state 값이 다른 state를 통해 얻을 수 있는가?
+
+
+  5. state 값을 변경하는 event handler 부착하기 
+
+
+### Choosing the State Structure
+
+  - Component에 state 설계 시 Tip
+
+    1. 관련된 state 묶기
+
+        동시에 여러 개의 state를 update 한다면, update 되는 state끼리 묶기 (to Object / array)
+
+        object / array로 묶어야 하는 다른 경우는 얼마나 많은 state가 생겨날지 모를 때
+
+        Ex. 개인정보 info에서 custom info를 추가적으로 계속 늘릴 수 있는 경우
+
+    2. state에 대한 모순 피하기
+
+       isSending & isSent와 같이 서로의 state 값이 같은 값일 수 없는 모순적인 상태일 때는 state가 잘못 선언된 상황
+
+    3. 불필요한 state 제거
+
+        다른 state들을 가지고 특정 state 값을 얻을 수 있다면 계산으로 얻을 수 있는 state는 불필요
+
+    4. 중복된 state 제거
+
+    5. 깊게 nested된 state는 피하기
+
+        nested된 state를 flat하게 만들기 위해서는 child를 가지는 property에 값 대신 id를 적고 child 값은 다른 곳에 선언하기 
+
+        ![alt text](./img/aviodDeepNestedObj.png)
+
+    이 원칙의 궁극적인 목표는 실수를 하지 않으면서 state 값을 쉽게 변경하기 위함
+
+  - useState를 통해 state가 초기화되는 것은 최초에 Component가 render될 때에만 작동
+
+    ![alt text](./img/mirrorPropErr1.png)
+
+    따라서 아래와 같이 변수에 direct로 할당해서 사용하거나 초기화용 prop으로 사용
+
+    ![alt text](./img/mirrorPropErr2.png)
+
+    ![alt text](./img/mirrorPropErr3.png)
+
+  - useState의 초기값으로 object가 전달되면 deep copy가 이루어진다. 
+
+  <br/>
+
+  ### Sharing State Between Components
+
+  - 여러 개의 Component들이 각각의 state를 가졌는데 그 state들이 연동되어야 한다면, 여러 Component들의 최소 공통 부모 Component로 state를 올리고 자식 Component에게 props를 통해 전달하는 방식 이용
+
+    -> lifting state up 방식 
+
+    또한, 중복된 state들이 여러 곳에 퍼져서 관리되기 보단 부모 Component에서 관리하고 자식에게 내려주는 형식이 이후의 유지보수 측면에서도 좋다.
+
+  - uncontrolled Component: state를 가지고 있는 Component
+
+    controlled Component: state를 부모가 가지고 자신에게 props로 전달해주는 Component
+
+  <br />
+
+  ### Preserving and Resetting State
+
+  - Component의 state는 Component가 아닌 React단에 존재하며 render tree를 가지고 어느 Component에 속한 state인지 파악
+
+    [핵심] 🎉 Component는 render tree의 어디서 속했는지에 따라 다른 Component로 파악된다
+
+    => 같은 위치에 같은 Component가 온다면 render X
+
+    [핵심] 🎉 만약 같은 Component가 render tree의 같은 자리에서 사라졌거나 동일한 자리에 다른 Component가 온다면 이전 Component는 보존되지 않는다.
+
+    아래의 예시에서 같은 JSX 태그 변수를 활용하고 있지만 render tree에서 다른 위치에 위치하기 떄문에 state가 각각 관리되고 있다.
+
+    ![alt text](./img/renderTreeEx1.png)
+
+    ![alt text](./img/renderTreeEx2.png)
+
+    만약 같은 Component가 같은 자리에 사라졌다가 나타난다 하더라도 이미 해당 Component는 render tree에서 사라진 상태이기 때문에 보존되지 않았다. 
+
+    따라서 2번째 Counter는 다시 나타났을 때 0으로 count가 초기화
+
+    ![alt text](./img/renderTreeEx3.png)
+
+    ![alt text](./img/renderTreeEx4.png)
+
+    ![alt text](./img/renderTreeEx5.png)
+
+  - render tree는 반환되는 JSX 태그에서의 Component들 간의 위치 / parent-child 등으로 정해진다. 
+
+    ```
+      <div>
+        <Component />
+      </div>
+      
+      <ol>
+        <Component />
+      </ol>
+      // 2개의 Component는 다른 Component로 간주됨
+    ```
+
+  - 만약 re-render될 때 Component 내부의 state 값을 보존(preserve)하고 싶다면 이전 render tree와 re-render tree를 동일하게 가지면 된다. 
+
+  - 이번 장에서 설명한 이유 때문에 Component 선언 function을 nested하게 선언하면 안된다.
+
+    왜냐하면 re-render 될 때마다 Component 선언 function들이 새로 생성될 것이기 때문
+
+    ```
+      // nested function example
+      function Comp1() {
+        function Comp2(){
+          return <div>Comp2</div>;
+        }
+
+        return <>
+          <Comp1/>
+          <div>Comp2</div>
+        </>;
+      }
+    ```
+
+  - state 값을 초기화하고 싶다면 다음의 방법 사용
+
+    1. Component를 다른 위치에 생성하기 
+
+      조건에 따른 UI 변경 시나리오가 적을 경우 유용하다.
+
+      아래와 같이 선언하면 동일한 위치에 생성한 Component로 판단되지만
+
+      ![alt text](./img/resetState1.png)
+
+      다음과 같이 다른 {}에 Component를 선언한다면 다른 Component로 인식
+
+      ![alt text](./img/resetState2.png)
+
+    2. Component에 다른 key를 삽입하기 
+
+      [핵심] 🎉 key를 Component에 props로 삽입해준다면, 동일한 Component type의 같은 key 값을 가진 Component라면 어느 곳에 위치하던 같은 Component로 판단
+
+      아래와 같이 같은 위치에 선언된 Component일지라도 key 값이 다르기 때문에 다른 Component로 판단
+
+      ![alt text](./img/resetState3.png)
+
+  - render tree에서 삭제된 Component의 state 보존 방법
+
+    1. 여러 개의 Component를 모두 UI에 올려놓고 현재 필요한  Component만 남기고 나머지 hide (비추천)
+
+    2. 부모 Component로 lifting state up 하기
+
+    3. localstorage와 같은 다른 browser 도구 사용하기
+
 </details>
+
+<br/>
 
 <details>
   <summary style="font-size: 25px">Section 5</summary>

@@ -10,6 +10,12 @@ const LeftMenu = () => {
             <div className='link'>
                 <Link to='/section/2'>Section2</Link>
             </div>
+            <div className='link'>
+                <Link to='/section/3'>Section3</Link>
+            </div>
+            <div className='link'>
+                <Link to='/section/4'>Section4</Link>
+            </div>
         </div>
 	);
 };
