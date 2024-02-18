@@ -815,6 +815,87 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
     3. localstorage와 같은 다른 browser 도구 사용하기
 
+    <br/>
+
+  ### Extracting State Logic into a Reducer
+
+  - event handler 여러 곳에서 state를 직접적으로 수정한다면 보기 어려울 것.
+
+    따라서, 직접적으로 state를 수정하는 외부의 함수인 Reducer를 두고 event handler에서 reducer를 호출하는 형태로 관리
+
+  - useState에서 useReducer로 변경하는 방법
+
+    1. setState 함수를 모두 dispatch 함수를 호출하는 형태로 변경
+
+        dispatch 함수는 "action"이라는 프로퍼티를 전달함으로써 사용자가 어떤 행위를 했는지를 알려주는 형식으로 setState 함수처럼 React에 무엇을 지시하는 형식과는 다르다.
+
+        ![alt text](./img/reducer%20dispatch%20.png)
+
+        위처럼 dispatch의 인자로 전달한 객체를 "action"이라고 지칭
+
+        action은 최소한의 데이터만 가지도록 설정해야 하고 어떠한 객체의 형태도 가능
+
+    2. reducer 함수 생성
+
+        reducer는 state를 update할 로직을 가지는 함수
+
+        현재의 state와 dispatch를 통해 전달된 action 객체가 인자로 전달되고, update된 state를 return해주어야 한다.
+
+        ![alt text](./img/reducer%20func.png)
+
+        Ex) 관습적으로 action의 종류에 대해서는 switch 문을 사용
+
+        <img src='./img/reducer func ex.png' height='500' />
+
+
+    3. Component에서 reducer 사용
+
+        아래와 같이, useReducer에서 state update 함수, 초기 state 값을 차례대로 인자로 전달하면 state와 인자로 전달한 state update 함수를 호출해줄 dispatch 함수 전달
+
+        ![alt text](./img/useReducer%201.png)
+
+        ![alt text](./img/useReducer2.png)
+
+        state를 인자로 전달하기 때문에 Component 외부에 reducer 함수를 선언해서 사용 가능
+
+        -> 다양한 곳에서 사용 가능함으로 유지보수성 증가
+
+
+    - useReducer의 장단점
+
+      1. 코드 길이
+
+          보통 useState를 사용했을 때 코드의 길이가 적지만 state를 update하는 방식이 각 Component마다 비슷하다면 useReducer가 더 적은 코드 창출
+
+      2. 가독성
+
+          단순한 Component에서는 useState가 직관적으로 읽기 좋지만 Component의 크기가 커짐에 따라 useReducer를 사용하는 것이 읽기 쉬워진다.
+
+      3. 디버깅
+
+          useState를 사용한 경우 모든 state를 update하는 모든 구절의 코드를 돌아보면 디버깅해야 하지만, useReducer를 사용한다면 reducer 함수에 console.log를 찍어봄으로써 빠르게 디버깅 가능
+
+      4. 테스트
+
+          reducer를 pure function임으로 테스트에 용이
+
+    - React 개발 부서에서는 몇몇의 Component에서 state를 update할 때 오류가 자주 발생하거나, 더 복잡한 구조를 Component에 넣으려고 하는 경우에 reducer 추천
+
+
+    - reducer를 잘 작성하는 방법
+
+      1. reducer는 pure function이어야만 한다.
+
+      2. 사용자의 행동이 여러 데이터에 변화를 주어도, 하나의 action은 하나의 사용자 행동을 나타내야 한다.
+
+          Ex) 사용자가 reset 버튼을 눌렀을 때 5가지의 개인정보 입력란을 초기화 해야 한다면, 5번의 setField가 아닌 1번의 resetForm를 action으로 호출해야 한다.
+
+    - reducer는 immer와 같이 사용될 수 있다.
+
+        ![alt text](./img/useImerr%20with%20reducer1.png)
+
+        ![alt text](./img/useImmer%20with%20reducer2.png)
+
 </details>
 
 <br/>
