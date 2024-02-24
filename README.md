@@ -444,7 +444,9 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
   단지 다음번의 render에 대한 state값이 변경될 뿐이다.
 
-  ![alt text](./img/call%20state%20setter%20async.png)
+  아래의 코드를 보면 number의 초깃값이 0이었을 때 alert로 5가 출력될 것 같지만, 실제로는 0이 출력
+
+  ![alt text](./img/async%20set%20state%20ex.png.png)
 
   비동기적으로 render가 화면에 반영한 후 state를 호출하더라도, 해당 render가 진행됐을 때의 state 값으로 render 진행
 
@@ -506,7 +508,7 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
   ![alt text](./img/treat%20state%20obj%20immutable.png)
 
-  이 코드에서 버튼을 누른다고 해서 render가 실행되지 않고 slient 속에서 state의 값만 변경되기 때문에 코드의 버그를 알아차리기 매우 어렵게 된다. 
+  이 코드에서 버튼을 누른다고 해서 render가 실행되지 않고 backgroud에서 state의 값만 변경되기 때문에 코드의 버그를 알아차리기 매우 어렵게 된다. 
 
 -  [핵심] 🎉 객체 state의 특정 property만 변경시켜서 state에 반영하고 싶다면, 새로운 객체를 만들어서 setter에 적용시키기!
 
@@ -541,7 +543,7 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
   2. Optimization
 
-      대부분의 React 최적한 전략은 이전 props / state 값과 다음 render 시의 props / state 값이 같은 판단하는 것
+      대부분의 React 최적화 전략은 이전 props / state 값과 다음 render 시의 props / state 값이 같다고 판단하는 것
 
       state값을 변경하지 않는다면 render는 빠르게 동작 (re-render하지 않기 때문)
 
@@ -582,7 +584,7 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
       ];
       ``` 
 
-- spread syntax는 shallow copy이기 때문에 reference type인 변수에 대해서는 값을 변경하면 안된다. 
+- spread syntax는 shallow copy이기 때문에 reference type인 배열의 요소에 대해서는 값을 변경하면 안된다. 
 
   ![alt text](./img/wrongArrStateUpdateEx.png)
 
@@ -628,7 +630,7 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
     }
   ```
 
-- 명령형 프로그래밍 방법은 당시의 조건에 따른 모든 상황에 대해 프로그래밍 해야 하기 떄문에 프로그램이 복잡해질수록 관리가 어려워짐\
+- 명령형 프로그래밍 방법은 당시의 조건에 따른 모든 상황에 대해 프로그래밍 해야 하기 때문에 프로그램이 복잡해질수록 관리가 어려워짐
 
   -> React가 이 문제를 해결하기 위해서 출시 
 
@@ -682,7 +684,18 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
     2. state에 대한 모순 피하기
 
-       isSending & isSent와 같이 서로의 state 값이 같은 값일 수 없는 모순적인 상태일 때는 state가 잘못 선언된 상황
+       isSending & isSent와 같이 서로의 state 값이 같은 값일 수 없고 state 값이 변경됨과 함께 isSending 이후 isSent를 항상 같이 변경해야 할 때는 state가 잘못 선언된 상황
+
+       ```
+        function submit(){
+          setIsSending(true);
+          // sending code
+          setIsSending(false);
+          setIsSent(true);
+        }
+       ```
+
+       이럴 경우는 isSending, isSent 라는 2개의 state를 하나의 state 변수에 저장하는 것이 관리에 효율적
 
     3. 불필요한 state 제거
 
@@ -728,7 +741,7 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
   ### Preserving and Resetting State
 
-  - Component의 state는 Component가 아닌 React단에 존재하며 render tree를 가지고 어느 Component에 속한 state인지 파악
+  - Component의 state는 Component에서가 아닌 React단에 존재하며 render tree를 가지고 어느 Component에 속한 state인지 파악
 
     [핵심] 🎉 Component는 render tree의 어디서 속했는지에 따라 다른 Component로 파악된다
 
@@ -752,7 +765,7 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
     ![alt text](./img/renderTreeEx5.png)
 
-  - render tree는 반환되는 JSX 태그에서의 Component들 간의 위치 / parent-child 등으로 정해진다. 
+  - render tree는 반환되는 JSX 태그에서의 Component들 간의 위치, parent-child 등으로 정해진다. 
 
     ```
       <div>
@@ -789,23 +802,23 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
     1. Component를 다른 위치에 생성하기 
 
-      조건에 따른 UI 변경 시나리오가 적을 경우 유용하다.
+        조건에 따른 UI 변경 시나리오가 적을 경우 유용하다.
 
-      아래와 같이 선언하면 동일한 위치에 생성한 Component로 판단되지만
+        아래와 같이 선언하면 동일한 위치에 생성한 Component로 판단되지만
 
-      ![alt text](./img/resetState1.png)
+        ![alt text](./img/resetState1.png)
 
-      다음과 같이 다른 {}에 Component를 선언한다면 다른 Component로 인식
+        다음과 같이 다른 {}에 Component를 선언한다면 다른 Component로 인식
 
-      ![alt text](./img/resetState2.png)
+        ![alt text](./img/resetState2.png)
 
     2. Component에 다른 key를 삽입하기 
 
-      [핵심] 🎉 key를 Component에 props로 삽입해준다면, 동일한 Component type의 같은 key 값을 가진 Component라면 어느 곳에 위치하던 같은 Component로 판단
+        [핵심] 🎉 key를 Component에 props로 삽입해준다면, 동일한 Component type의 같은 key 값을 가진 Component라면 어느 곳에 위치하던 같은 Component로 판단
 
-      아래와 같이 같은 위치에 선언된 Component일지라도 key 값이 다르기 때문에 다른 Component로 판단
+        아래와 같이 같은 위치에 선언된 Component일지라도 key 값이 다르기 때문에 다른 Component로 판단
 
-      ![alt text](./img/resetState3.png)
+        ![alt text](./img/resetState3.png)
 
   - render tree에서 삭제된 Component의 state 보존 방법
 
@@ -850,7 +863,7 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
     3. Component에서 reducer 사용
 
-        아래와 같이, useReducer에서 state update 함수, 초기 state 값을 차례대로 인자로 전달하면 state와 인자로 전달한 state update 함수를 호출해줄 dispatch 함수 전달
+        아래와 같이, useReducer에는 실제 state update 함수, 초기 state 값을 차례대로 인자로 전달하면 state와 인자로 전달한 state update 함수를 호출해줄 dispatch 함수 전달
 
         ![alt text](./img/useReducer%201.png)
 
@@ -886,7 +899,7 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
       1. reducer는 pure function이어야만 한다.
 
-      2. 사용자의 행동이 여러 데이터에 변화를 주어도, 하나의 action은 하나의 사용자 행동을 나타내야 한다.
+      2. 사용자의 행동이 여러 데이터에 변화를 주어도, 하나의 action으로 사용자 행동을 처리해야 한다.
 
           Ex) 사용자가 reset 버튼을 눌렀을 때 5가지의 개인정보 입력란을 초기화 해야 한다면, 5번의 setField가 아닌 1번의 resetForm를 action으로 호출해야 한다.
 
