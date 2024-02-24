@@ -909,6 +909,116 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
         ![alt text](./img/useImmer%20with%20reducer2.png)
 
+
+ <br />
+
+ ### Passing Data Deeply with Context
+
+  - 하나의 부모 Component에서 여러 depth 아래의 여러 Component에 같은 props를 전달해야 하는 경우, 중간에 위치한 모든 Component에 props를 전달해주어야 한다.
+
+    -> 장황하고 불필요한 코드
+
+    이 문제를 해결하기 위해 나온 것이 바로 Context
+
+  - Context는 자식 tree에 위치한 모든 Component에서 부모 Component에 위치한 데이터를 사용할 수 있도록 해주는 기술
+
+  - Context 사용 방법
+
+    1. Context 생성하기
+
+        ![alt text](./img/use%20context%20step1.png)
+
+
+    2. 데이터를 필요로 하는 Component에서 Context 사용
+
+        중간 Component에는 전달해주었던 props를 삭제 & 실제로 데이터를 필요로 하는 Component에서 useContext를 통해 데이터 가져오기
+
+        ![alt text](./img/use%20context%20step2.png)
+
+        만약 context 제공 Component에서 데이터를 제공하지 않으면 context를 초기화한 값이 전달된다.
+
+    3. 데이터를 제공하는 Component에서 context 제공
+
+        전달된 자식 Component JSX에 Context 태그를 wrap해주어 provider 설정
+        
+        ```
+          <Context.Provider value={전달할 값}> 
+            {자식 Component} 
+          <Context.Provider/>
+        ```
+
+        ![alt text](./img/use%20context%20step3.png)
+
+  - 하나의 Component에서 context.provider 제공 시, 하위 tree에 위치한 Component들에서는 설정해준 Context 값을 useContext를 통해 사용 가능
+      
+      아래 예시의 출력을 보면 context.provider로 값이 제공되기 전과 후의 값이 다르게 나오는 것을 확인 가능
+
+      ![alt text](./img/context%20code%20ex1.png)
+
+      ![alt text](./img/context%20code%20ex2.png)
+
+      전달된 context 값을 바꾸는 유일한 방법은 context.provider를 사용하는 것
+
+     만약 context가 객체 / 배열이고 다음과 같이 직접적으로 context를 변경하는 경우 디버깅에 어려움을 느낄 것
+
+     ![alt text](./img/wrong%20use%20context%20ex1.png)  ![alt text](./img/wrong%20use%20context%20ex2.png)
+
+  - createContext를 통해 생성된 context는 각각 독립적으로 작동
+
+    여러 Context를 같은 곳에서 적용시키는 방법
+
+      ![alt text](./img/multi%20context.png)
+
+  - context 사용 전 고려 대상
+
+    1. props를 전달하는 방식
+
+        props를 전달하는 방식은 코드상으로 데이터의 흐름이 노출되기 때문에 디버깅에 유리
+
+    2. children component를 전달하는 방식
+
+        중간에 위치한 Component에 이들이 사용하지 않을 데이터를 전달한다는 것은 Component 추출이 잘 되어있지 않다는 의미
+
+        ![alt text](./img/transfer%20children%20component.png)
+
+    이 방식을 채택하지 않았을 경우 Context 사용 고려
+
+  - Context 사용 사례
+
+    - 테마: 웹사이트 배경색을 검정으로 변경할 경우, App의 최상단에 context.provider로 color를 black으로 지정
+
+    - 로그인 계정 정보: 하위 여러 Component에서 로그인한 사용자 정보를 가지고 권한 등을 판별해야 하는 경우
+
+    - 라우팅: 대부분의 Router 라이브러리에는 현재 경로를 context로 저장 및 관리
+
+    - state 관리: App이 커짐에 따라 많은 state들이 App의 최상단에 위치 -> context와 reducer를 함께 사용한 코드 사용으로 효율성 증대
+
+    [핵심] 🎉 일반적으로 서로 다른 tree에서 멀리 위치한 Component끼리 동일한 정보가 필요할 때 Context를 사용 
+
+  <br/>
+
+### Scaling Up with Reducer and Context
+
+  - reducer를 사용하고 부모 Component ~ 자식 Component 사이에 많은 중간 Component가 위치할 경우, state와 dispatch 함수를 context로 전달하여 문제 해결
+
+    방법
+
+      1. context 생성
+
+          전달하려는 Component의 state와 dispatch 함수를 담을 context를 각각 생성
+
+      2. 부모 Component에서 context에 state 및 dispatch 전달
+
+          아래와 같이, Component를 생성하고 전달된 Children Component들을 context.provider로 감싸므로서 한 곳에서 provider 관리 가능 
+
+          ![alt text](./img/context%20provider%20component.png)
+
+      3. 부모 Component 하위 tree에 있는 모든 Component에서 context 및 dispatch 함수 사용 가능
+
+  - context를 Component에서 direct로 호출하기보다 함수로 감싸서 호출한다면, 추후에 context 분활 혹은 로직 추가 등의 작업을 수행할 때 좀 더 쉬워진다. 
+
+      ![alt text](image.png)
+
 </details>
 
 <br/>
