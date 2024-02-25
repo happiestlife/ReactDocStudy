@@ -85,9 +85,9 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
   -> [핵심] 
   
-  🎉만약 2개 이상의 자식들로부터 데이터를 가져오거나 자식들끼리 상호작용하는 것을 원한다면, 그 자식들의 상위 Component인 부모 Component에 상태를 선언하고 내려주기 
+  ✨`약 2개 이상의 자식들로부터 데이터를 가져오거나 자식들끼리 상호작용하는 것을 원한다면, 그 자식들의 상위 Component인 부모 Component에 상태를 선언하고 내려주기 
 
-  🎉설계시 sibling Component 사이에서 상호작용이 일어난다면, 각 state를 최소 부모 Component로 끌어올려서 관리
+  ✨`계시 sibling Component 사이에서 상호작용이 일어난다면, 각 state를 최소 부모 Component로 끌어올려서 관리
 
   <br>
 
@@ -100,8 +100,7 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
     
     - Component: Game <- Board <- Square
 
-    - [핵심] 🎉Game이 유일하게 statue를 가지는 Component -> 게임 데이터가 우측의 button과 좌측의 board간 연동을 위한 "최소 공통 부모"이기 때문 🎉
-
+    - [핵심] ✨`ame이 유일하게 statue를 가지는 Component -> 게임 데이터가 우측의 button과 좌측의 board간 연동을 위한 "최소 공통 부모"이기 때문 ✨`
     - 부모에서 자식에게 Handler를 넘겨주고, 자식에서 handler를 부착하고 이벤트를 발생시키면 부모의 statue(상태값) 업데이트 
 
       -> 자동으로 자식들도 상태 업데이트
@@ -210,13 +209,13 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
     ![Alt text](./img/spread_props.png)
 
-  - [핵심] 🎉아래와 같이 부모 자식간에 JSX 태그로 nested 되어 있다면 부모 Component 자식에 대한 값을 children 인자로 받을 수 있다. 
+  - [핵심] ✨`래와 같이 부모 자식간에 JSX 태그로 nested 되어 있다면 부모 Component 자식에 대한 값을 children 인자로 받을 수 있다. 
 
     ![Alt text](./img/nestedComp.png)    ![Alt text](./img/childrenProps.png)
 
-    🎉 즉, 부모 Component는 상위 Component에 의해서 임의의 자식 Component를 가질 수 있다는 의미. 
+    ✨`즉, 부모 Component는 상위 Component에 의해서 임의의 자식 Component를 가질 수 있다는 의미. 
 
-  - [핵심] 🎉 리액트를 잘 설계하기 위해서는 Component의 재사용성과 예측 가능성에 초점을 두고 개발 필요
+  - [핵심] ✨`리액트를 잘 설계하기 위해서는 Component의 재사용성과 예측 가능성에 초점을 두고 개발 필요
 
     그렇기 위해서, 자식 Component에서는 부모 Component로부터 받은 props를 절대 변경해서 사용하면 안된다.
 
@@ -392,7 +391,7 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
 - React에서 UI에 Component가 적용되는 프로세스
 
-  1. render를 작동시킨다.
+  1. trigger a render
 
       - render가 trigger되는 조건
 
@@ -402,7 +401,7 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
         (2) state 값 update 시 (setter 함수 이용시에만!)
 
-  2. Component를 render한다.
+  2. Rendering the component
 
       render가 trigger된 후, React는 Component에게 어떤 형태를 화면에 그릴 것인지 요청
 
@@ -415,7 +414,7 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
       * 만약 state가 update된 Component가 React Virtual DOM tree의 상단에 위치한다면 성능 하락 야기 
       -> 최적화 필요
 
-  3. DOM에 rendering한 Component를 반영한다.
+  3. Committing to the DOM
 
     - 최초시, 생성한 모든 DOM node들을 appendChild()를 통해 붙이기
 
@@ -430,7 +429,7 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
 - state의 setter는 현재의 state를 다음 render에 적용할 수 있는 값으로 변경할 뿐이다. 
 
-  [핵심] 🎉 현재 진행되는 render에서 여러번의 state의 setter 호출은 마지막의 setter만 state에 영향을 준다.
+  [핵심] ✨`현재 진행되는 render에서 여러번의 state의 setter 호출은 마지막의 setter만 state에 영향을 준다.
 
   ![alt text](./img/call%20state%20setter%20multiple.png)
 
@@ -510,7 +509,7 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
   이 코드에서 버튼을 누른다고 해서 render가 실행되지 않고 backgroud에서 state의 값만 변경되기 때문에 코드의 버그를 알아차리기 매우 어렵게 된다. 
 
--  [핵심] 🎉 객체 state의 특정 property만 변경시켜서 state에 반영하고 싶다면, 새로운 객체를 만들어서 setter에 적용시키기!
+-  [핵심] ✨`객체 state의 특정 property만 변경시켜서 state에 반영하고 싶다면, 새로운 객체를 만들어서 setter에 적용시키기!
 
 - 만약 객체의 특정 property만 변경되고 나머지 property는 이전 값과 동일하다면 ... 문법(spread syntax) 사용하기
 
@@ -636,7 +635,7 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
   React는 직접적으로 개발자가 UI를 조작하기 보단 "어떤 UI를 표시하고 싶은지"에 집중
 
-  [핵심] 🎉 React는 state 값을 사용해서 UI를 가변적으로 표시
+  [핵심] ✨`React는 state 값을 사용해서 UI를 가변적으로 표시
 
   Ex. isEdit / isSubmitting 와 같은 상태
 
@@ -743,11 +742,11 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
   - Component의 state는 Component에서가 아닌 React단에 존재하며 render tree를 가지고 어느 Component에 속한 state인지 파악
 
-    [핵심] 🎉 Component는 render tree의 어디서 속했는지에 따라 다른 Component로 파악된다
+    [핵심] ✨`Component는 render tree의 어디서 속했는지에 따라 다른 Component로 파악된다
 
     => 같은 위치에 같은 Component가 온다면 render X
 
-    [핵심] 🎉 만약 같은 Component가 render tree의 같은 자리에서 사라졌거나 동일한 자리에 다른 Component가 온다면 이전 Component는 보존되지 않는다.
+    [핵심] ✨`만약 같은 Component가 render tree의 같은 자리에서 사라졌거나 동일한 자리에 다른 Component가 온다면 이전 Component는 보존되지 않는다.
 
     아래의 예시에서 같은 JSX 태그 변수를 활용하고 있지만 render tree에서 다른 위치에 위치하기 떄문에 state가 각각 관리되고 있다.
 
@@ -814,7 +813,7 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
     2. Component에 다른 key를 삽입하기 
 
-        [핵심] 🎉 key를 Component에 props로 삽입해준다면, 동일한 Component type의 같은 key 값을 가진 Component라면 어느 곳에 위치하던 같은 Component로 판단
+        [핵심] ✨`key를 Component에 props로 삽입해준다면, 동일한 Component type의 같은 key 값을 가진 Component라면 어느 곳에 위치하던 같은 Component로 판단
 
         아래와 같이 같은 위치에 선언된 Component일지라도 key 값이 다르기 때문에 다른 Component로 판단
 
@@ -993,7 +992,7 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
     - state 관리: App이 커짐에 따라 많은 state들이 App의 최상단에 위치 -> context와 reducer를 함께 사용한 코드 사용으로 효율성 증대
 
-    [핵심] 🎉 일반적으로 서로 다른 tree에서 멀리 위치한 Component끼리 동일한 정보가 필요할 때 Context를 사용 
+    [핵심] ✨`일반적으로 서로 다른 tree에서 멀리 위치한 Component끼리 동일한 정보가 필요할 때 Context를 사용 
 
   <br/>
 
@@ -1017,7 +1016,7 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
   - context를 Component에서 direct로 호출하기보다 함수로 감싸서 호출한다면, 추후에 context 분활 혹은 로직 추가 등의 작업을 수행할 때 좀 더 쉬워진다. 
 
-      ![alt text](image.png)
+      ![alt text](./img/wrap%20useContext.png)
 
 </details>
 
@@ -1025,4 +1024,162 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
 <details>
   <summary style="font-size: 25px">Section 5</summary>
+
+  ## [핵심] ✨ 이 단원에 나오는 기술들은 모든 특수한 경우에 사용해야 하는 기술들로, 과용해서는 안된다.
+
+  ### Referencing Values with Refs
+
+  - state처럼 값이 Component에서 유지되지만 값이 update됨에 따라 re-render되는 것을 원하지 않는다면 useRef 사용
+
+      ref는 값을 current에 저장해서 관리하고 특별한 setter 없이 직접 ref.current에 값을 넣어줌으로써 update
+
+      ref에 객체가 저장되어 있더라도 mutate한 update도 허용
+
+      ![alt text](./img/useRef%20code%201.png)
+
+      ![alt text](./img/useRef%20code%202.png)
+
+  - rendering에 사용되는 데이터는 state로 관리하지만, render에 사용되지 않고 event handler에만 필요한 데이터는 ref로 관리 가능
+
+  - ref는 render 중일 때 사용되어서는 안된다. 
+
+    Stop watch로 예를 들 때, setInterval의 id를 ref로 보유하다가 start button 클릭 시 ref에 저장되어 있는 setInterval id로 clearInterval를 해주고 새로운 interval 시작
+
+    중점적으로 보아야 할 점은 rendering에 ref 갑이 사용되지 않은 점
+
+    ![alt text](./img/useRef%20code%203.png)
+
+  - ref는 내부적으로 아래의 사진과 유사하게 구현되어 있다.
+
+    ![alt text](./img/ref%20logic.png)
+
+  - ref는 React 외부의 API를 사용할 때 유용
+
+    Ex) 1. DOM 요소 저장 (대표적인 case)
+
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2. timeout ID와 같이 render에 영향을 주지 않는 데이터
+
+  - React는 특수한 상황에서만 사용되어야 하며, render 시 절대 사용되어서는 안된다.
+
+    이 규칙을 지키지 않으면 예측하기 어려움 Component가 된다.
+
+  <br/>
+
+  ### Manipulating the DOM with Refs
+
+  - ref가 주로 사용되는 목적은 DOM element를 저장해서 DOM API를 사용하기 위함
+
+  - tag의 attribute로 ref={선언한 Ref}를 넣어줌으로써 DOM element의 reference가 저장됨
+
+    ![alt text](./img/dom%20ref%20ex1.png)
+
+    ref에 태그의 reference가 저장된 이후에는 ref.current.DOM api()를 사용 가능
+
+  - 여러 DOM element들을 배열로 관리하는 방법
+
+    1. 부모 parent를 ref에 저장하고 querytSelectorAll()를 사용하기 (비추천)
+
+    2. 관리하고 싶은 여러 DOM element들의 attribute로 ref call 전달하기
+
+        ref callback은 element가 DOM에 생성될 떄 DOM element를, DOM element가 제거될 때 null를 반환
+
+        ![alt text](./img/ref%20callback.png)
+
+        이 기술을 활용할 때, ref에 Map을 저장하고 ref callback을 이용해서 key: id, value: DOM element를 넣음으로써 DOM element 관리
+
+        ![alt text](./img/ref%20callback%20ex.png)
+
+  - 이미 존재하는 HTML 태그에 대해서 ref attribute를 지정하면 해당 태그에 대한 DOM element가 ref에 저장되지만, 개발자가 만든 Component에 ref attribute를 지정하면 null이 저장된다. (default)
+
+    이것은 React가 기본적으로 Component가 자신이 아닌 다른 Component의 DOM node를 가질 수 없도록 하는 정책 때문
+
+    Custom Component에도 ref를 전달하고 싶다면, forwardRef()를 통해 Component 선언하기
+
+    ![alt text](./img/forwardRef%20ex1.png)
+
+    ![alt text](./img/forwardRef%20ex2.png)
+
+    button, input 등과 같은 low level에 위치한 Component를 forwardRef를 종종 허용하지만, form, list 등의 high-level Component에는 다른 Component에서 자신의 DOM node에 대한 접근을 허용하지 않는다.
+
+    만약 다른 Component에서 자신의 DOM node를 사용할 때 제한을 걸고 싶다면 useImperativeHandler 선언을 통해 제한
+
+      1. Custom Component에 실제 DOM node를 저장할 ref 선언
+
+      2. useImperativeHandler(전달받은 ref, 허용할 api 목록(오버라이딩 필요))
+
+          ![alt text](./img/useImperativeHandler.png)
+
+  - React에서 update는 2가지 단계로 진행
+
+    1. render: React가 component에게 어떤 UI를 그릴지 요청
+
+    2. commit: React가 DOM에 전달받은 UI를 그림
+
+    React는 commit 단계에서 ref.current의 값을 update. 
+
+    DOM을 update하기 전에 null로 설정하고 update 후에 적용하려는 값 삽입
+
+  - ref에는 주로 event handler에서 접근하지만, 마땅한 event가 없다면 useEffect 사용
+
+  - state setter 함수 실행 후 바로 DOM에 반영하기를 원한다면 flushSync(() => {}) 활용
+
+    ![alt text](./img/flushSync1.png)
+
+    ![alt text](./img/flushSync2.png)
+
+  - [핵심] ✨ DOM node를 가지고 수동적으로 변화를 주지 않기. focus, scrolling과 같은 api만 활용할 것
+
+    예외적으로 React가 update하지 않는 부분의 DOM element에 대해서는 수정 가능(but 항상 주의 필요)
+
+  <br/>
+
+  ### Synchronizing with Effects
+
+  - Component에는 2가지 종류의 규칙이 존재
+
+    1. rendering code: state와 props를 활용하여 JSX를 반환. 반드시 pure 해야 한다.(같은 입력 => 같은 결과)
+
+    2. event handler: side effect를 발생시킴'
+
+    하지만 일부 경우에서는 이 규칙이 깨지기도 한다
+    
+    이 경우 effect를 사용하여 rendering 중 발생한 side effect를 명시할 수 있다.
+
+    effect는 commit 단계 마지막에 실행된다.
+
+  - effect 작성 방법  
+
+    1. effect 선언
+    
+       기본적으로 render 이후 항상 실행됨
+
+    2. effect 의존성 명시
+
+      effect가 동작하는 조건 설정
+
+    3. 필요한 경우 cleanUp 함수 추가
+
+
+    
+  <br/>
+
+  ### You Might Not Need an Effect
+
+  <br/>
+
+  ### Lifecycle of Reactive Effects
+
+  <br/>
+
+  ### Separating Events from Effects
+
+  <br/>
+
+  ### Removing Effect Dependencies
+
+  <br/>
+
+  ### Reusing Logic with Custom Hooks
+
+  <br/>
 </details>
