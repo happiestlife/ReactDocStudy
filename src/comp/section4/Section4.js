@@ -1,13 +1,14 @@
 import SectionComp from "../utils/SectionComp";
-import { useRef, useState } from "react";
-
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from "react";
 
 export default function Section3() {
     return (
         <>
             <SectionComp title={'Ref는 값이 update 되어도 re-render 되지 않는다.'}>
                 <RefComp />
+            </SectionComp>
+            <SectionComp title={'useEffect 사용 방법'}>
+                <UseEffectComp />
             </SectionComp>
         </>
     );
@@ -52,39 +53,63 @@ const RefComp = () => {
     );
 }
 
-const RefTimerComp = () => {
-    const [startTime, setStartTime] = useState(null);
-    const [now, setNow] = useState(null);
-    const intervalRef = useRef(null);
-    
-    function handleStart() {
-        setStartTime(Date.now());
-        setNow(Date.now());
-    
-        clearInterval(intervalRef.current);
-        intervalRef.current = setInterval(() => {
-        setNow(Date.now());
-        }, 10);
-    }
-    
-    function handleStop() {
-        clearInterval(intervalRef.current);
-    }
-    
-    let secondsPassed = 0;
-    if (startTime != null && now != null) {
-        secondsPassed = (now - startTime) / 1000;
-    }
-    
+const UseEffectComp = () => {
+    const [state, setState] = useState(100);
+    const [isShowChild, setIsShowChild] = useState(true);
+      
     return (
-        <>
-        <h1>Time passed: {secondsPassed.toFixed(3)}</h1>
-        <button onClick={handleStart}>
-            Start
-        </button>
-        <button onClick={handleStop}>
-            Stop
-        </button>
-        </>
-    );
+        <div>
+            <button onClick={() => {setState(state + 100)}}>add 100 to props</button>
+            <button onClick={() => {setIsShowChild(!isShowChild)}}>Toggle child</button>
+            {isShowChild && <UseEffectChildComp testPrps={state}/>}
+        </div>
+    )
+}
+
+const UseEffectChildComp = ({testPrps}) => {
+    const [val1, setVal1] = useState(0);
+    const [val2, setVal2] = useState(0);
+
+    // 처음으로 Tree에 mount 됐을 때
+    useEffect(() => {
+        console.log('initialized!');
+    }, []);
+
+    useEffect(() => {
+        console.log('value updated');
+    }, [value]);
+
+    // state / props가 업데이트 되었을 때
+    useEffect(() => {
+        if(val1 == 0) return;
+
+        console.log('val1 updated');
+    }, [val1]);
+
+    useEffect(() => {
+        if(val2 == 0) return;
+
+        console.log('val2 updated');
+    }, [val2]);
+
+    useEffect(() => {
+        console.log('testProps updated, ', testPrps);
+    }, [testPrps]);
+
+    // 이 Component가 DOM tree에서 제거되었을 때
+    useEffect(() => {
+        return () => {
+            console.log('This DOM element is removed');
+        };
+    }, []);
+      
+    return (
+        <div>
+            <div>Tag1: {val1}</div>
+            <div>Tag2: {val2}</div>
+            <div>Parent props: {testPrps}</div>
+            <button onClick={() => {setVal1(val1 + 1);}}>add tag1 1</button>
+            <button onClick={() => {setVal2(val2 + 1)}}>add tag2 1</button>
+        </div>
+    )
 }

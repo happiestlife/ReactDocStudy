@@ -2,9 +2,10 @@ import { Routes, Route } from "react-router-dom";
 import Section1 from "./section1/Section1";
 import Section2 from "./section2/Section2";
 import Section3 from "./section3/Section3";
+import Section4 from "./section4/Section4";
 
 export default function Main() {  
-    const sections = [<Section1 />, <Section2 />, <Section3 />];
+    const sections = [<Section1 />, <Section2 />, <Section3 />, <Section4 />];
 
     const sectionRouters = sections.map((s, idx) => {
         return <Route key={idx} path={'/section/' + (idx + 1)} element={s}></Route>

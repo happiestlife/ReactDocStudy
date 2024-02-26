@@ -7,9 +7,7 @@ import MainFrame from './comp/MainFrame.js';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    {/* <TopMenu></TopMenu> */}
     <MainFrame />
-    {/* <Section1ReadMe></Section1ReadMe> */}
   </React.StrictMode>
 );
 

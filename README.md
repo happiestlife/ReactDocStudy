@@ -1145,20 +1145,67 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
     
     이 경우 effect를 사용하여 rendering 중 발생한 side effect를 명시할 수 있다.
 
-    effect는 commit 단계 마지막에 실행된다.
+    effect는 commit 단계 마지막에 실행된다 -> rende 이후 항상 실행됨
 
   - effect 작성 방법  
 
     1. effect 선언
     
-       기본적으로 render 이후 항상 실행됨
+       render 중에는 side effect 없이 항상 pure한 계산들로 구성되어야 한다. (state, constance, ...)
+
+       또한, DOM element는 commit 단계에서 DOM tree에 Component가 부착되어야 사용이 가능
+
+       -> useEffect(() => {}); 훅을 사용해서 render가 끝난 이후 side effect을 발생시키는 코드 실행 
+
+       Ex) 아래와 같이 ref를 사용하면 DOM element가 ref에 저장되기 전에 ref 값(DOM element 호출) => 오류 발생
+
+       ![alt text](./img/useEffect%20ex1.png)
+
+       useEffect로 감싸서 side effect를 발생시키는 코드를 수행하면 render가 끝나고 실행되기 때문에 오류 발생 X
+
+       ![alt text](./img/useEffect%20ex2.png)
 
     2. effect 의존성 명시
 
-      effect가 동작하는 조건 설정
+        rendering 될 때마다 useEffect가 마지막에 실행되지만 그렇지 않아도 되는 경우가 존재
+
+        이럴 경우, useEffect에 호출 조건을 걸어서 해결.
+
+        ![alt text](./img/useEffect%20when%20update.png)
+
+        첫번째 인자로 의존성이 update될 때마다 호출될 callback, 두번째 인자로 첫번째 인자의 호출을 야기할 의존성(변수)를 지정
+
+        ![alt text](./img/useEffect%20ex3.png)
+
+        첫번째 버튼을 눌렀을 때만 'val1 updated' 문구의 alert창이, 두번째 버튼을 눌렀을 때만 'val2 updated' 문구의 alert창이 뜬다.
 
     3. 필요한 경우 cleanUp 함수 추가
 
+        만약 Component가 소멸 / 제거되었을 경우 특별한 종료 로직이 필요할 수 있다. 이 경우에도 useEffect 사용 가능
+
+        첫번째 인자로 전달한 callback의 return으로 DOM이 제거되었을 때 호출할 함수 작성
+
+        ![alt text](./img/useEffect%20when%20removed.png)
+
+    - 정리해보면 
+
+      1) DOM에 최초로 mount된 직후
+
+          ![alt text](./img/useEffect%20when%20init.png)
+
+      2) 지정한 denpendency의 값이 update 되었을 때
+
+          ![alt text](./img/useEffect%20when%20update.png)
+
+      3) DOM에서 해당 DOM element가 제거되기 직전
+
+          ![alt text](./img/useEffect%20when%20removed.png)
+
+  - 개발 React에서 보면 분명 DOM에 처음 나타날 때에 호출하는 useEffect 하나만 작성했는데, 안에 작성한 console.log가 2번 실행되는 경우가 있다.
+
+    -> 이는 application의 최상단에 React.StrictMode를 사용하기 때문. 제거하면 정상적으로 1번만 호출됨
+
+    해결 방법
 
     
   <br/>
