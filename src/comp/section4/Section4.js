@@ -1,4 +1,5 @@
 import SectionComp from "../utils/SectionComp";
+import "../../style/Section4.css";
 import { useRef, useState, useEffect } from "react";
 
 export default function Section3() {
@@ -10,9 +11,12 @@ export default function Section3() {
             <SectionComp title={'useEffect 사용 방법'}>
                 <UseEffectComp />
             </SectionComp>
+            <SectionComp title={'useEffect는 다음 render가 진행될 때 이전에 진행됐던 render의 모든 effect를 삭제'} >
+                <UseEffectSnapshotComp />
+            </SectionComp>
         </>
     );
-}
+} 
 
 const RefComp = () => {
 
@@ -70,15 +74,6 @@ const UseEffectChildComp = ({testPrps}) => {
     const [val1, setVal1] = useState(0);
     const [val2, setVal2] = useState(0);
 
-    // 처음으로 Tree에 mount 됐을 때
-    useEffect(() => {
-        console.log('initialized!');
-    }, []);
-
-    useEffect(() => {
-        console.log('value updated');
-    }, [value]);
-
     // state / props가 업데이트 되었을 때
     useEffect(() => {
         if(val1 == 0) return;
@@ -112,4 +107,47 @@ const UseEffectChildComp = ({testPrps}) => {
             <button onClick={() => {setVal2(val2 + 1)}}>add tag2 1</button>
         </div>
     )
+};
+
+function Playground() {
+    const [text, setText] = useState('a');
+  
+    useEffect(() => {
+      function onTimeout() {
+        console.log('⏰ ' + text);
+      }
+  
+      console.log('🔵 Schedule "' + text + '" log');
+      const timeoutId = setTimeout(onTimeout, 3000);
+  
+      return () => {
+        console.log('🟡 Cancel "' + text + '" log');
+        clearTimeout(timeoutId);
+      };
+    }, [text]);
+  
+    return (
+      <>
+        <label>
+          What to log:{' '}
+          <input
+            value={text}
+            onChange={e => setText(e.target.value)}
+          />
+        </label>
+        <h1>{text}</h1>
+      </>
+    );
 }
+const UseEffectSnapshotComp = () => {
+    const [show, setShow] = useState(false);
+    return (
+      <>
+        <button onClick={() => setShow(!show)}>
+          {show ? 'Unmount' : 'Mount'} the component
+        </button>
+        {show && <hr />}
+        {show && <Playground />}
+      </>
+    );
+  }

@@ -1059,7 +1059,7 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2. timeout ID와 같이 render에 영향을 주지 않는 데이터
 
-  - React는 특수한 상황에서만 사용되어야 하며, render 시 절대 사용되어서는 안된다.
+  - Ref는 특수한 상황에서만 사용되어야 하며, render 시 절대 사용되어서는 안된다.
 
     이 규칙을 지키지 않으면 예측하기 어려움 Component가 된다.
 
@@ -1117,7 +1117,7 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
     React는 commit 단계에서 ref.current의 값을 update. 
 
-    DOM을 update하기 전에 null로 설정하고 update 후에 적용하려는 값 삽입
+    DOM을 update하기 전에 null로 설정하고 update 후에 적용하려는 값(DOM element) 삽입
 
   - ref에는 주로 event handler에서 접근하지만, 마땅한 event가 없다면 useEffect 사용
 
@@ -1139,13 +1139,13 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
     1. rendering code: state와 props를 활용하여 JSX를 반환. 반드시 pure 해야 한다.(같은 입력 => 같은 결과)
 
-    2. event handler: side effect를 발생시킴'
+    2. event handler: side effect를 발생시킴
 
     하지만 일부 경우에서는 이 규칙이 깨지기도 한다
     
     이 경우 effect를 사용하여 rendering 중 발생한 side effect를 명시할 수 있다.
 
-    effect는 commit 단계 마지막에 실행된다 -> rende 이후 항상 실행됨
+    effect는 commit 단계 마지막에 실행된다 -> render 이후 항상 실행됨
 
   - effect 작성 방법  
 
@@ -1167,9 +1167,7 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
     2. effect 의존성 명시
 
-        rendering 될 때마다 useEffect가 마지막에 실행되지만 그렇지 않아도 되는 경우가 존재
-
-        이럴 경우, useEffect에 호출 조건을 걸어서 해결.
+        rendering 될 때마다 useEffect가 마지막에 실행되지만 그렇지 않아도 되는 경우에는 useEffect에 호출 조건을 걸어서 해결.
 
         ![alt text](./img/useEffect%20when%20update.png)
 
@@ -1181,7 +1179,9 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
     3. 필요한 경우 cleanUp 함수 추가
 
-        만약 Component가 소멸 / 제거되었을 경우 특별한 종료 로직이 필요할 수 있다. 이 경우에도 useEffect 사용 가능
+        만약 Component가 소멸 / 제거되었을 경우 특별한 종료 로직이 필요할 경우에도 useEffect 사용 가능
+
+        -> Component가 remount될 때 Component에 버그 / 오류가 생기는 경우
 
         첫번째 인자로 전달한 callback의 return으로 DOM이 제거되었을 때 호출할 함수 작성
 
@@ -1195,6 +1195,8 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
       2) 지정한 denpendency의 값이 update 되었을 때
 
+          의존성이 마지막 render때와 동일한 값을 가진다면 React는 useEffect 무시
+
           ![alt text](./img/useEffect%20when%20update.png)
 
       3) DOM에서 해당 DOM element가 제거되기 직전
@@ -1203,11 +1205,64 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
   - 개발 React에서 보면 분명 DOM에 처음 나타날 때에 호출하는 useEffect 하나만 작성했는데, 안에 작성한 console.log가 2번 실행되는 경우가 있다.
 
-    -> 이는 application의 최상단에 React.StrictMode를 사용하기 때문. 제거하면 정상적으로 1번만 호출됨
+    이는 application의 최상단에 React.StrictMode를 사용하기 때문. 제거하면 정상적으로 1번만 호출됨
 
-    해결 방법
+    [핵심] ✨ 개발에서 useEffect를 2번 호출하는 문제를 해결하는 방법은 주로 setup(1) -> cleanup(3) -> 다시 setup(1)하는 방식
 
-    
+    - network로 request를 송신하는 경우, JS의 abortController를 호출하거나 ignore flag 활용
+
+      ![alt text](./img/ignore%20flag%20of%20useEffect.png)
+
+    - 로그를 전송하는 경우, 수정하지 않기 (개발서버에서의 로그는 remount가 빈번히 작동되는 것과 같이 중복이 발생할 수 있기 때문)
+
+        테스트를 원한다면 일시적으로 React.strictmode를 제거하거나 stg서버에 올려서 테스트 하기
+
+    - 반드시 한번만 호출되어야 하는 경우, App 외부에 위치시키기 
+
+        ![alt text](./img/out%20side%20of%20app%20useEffect.png)
+
+    - useEffect에서 제품 구매 정보 upodate를 위한 api오 같은 네트워크 통신을 전송하는 경우는 코드가 잘못된 경우
+
+        해당 코드는 사용자가 구매 버튼을 클릭했을 때만 작동해야 하기 때문에 위치 바꾸기
+
+  - [핵심] ✨ useEffect는 다음 render를 진행할 때, 이전 render에서의 모든 effect를 삭제시킨다.
+
+      즉, 다음 useEffect 호출때마다 이전 useEffect의 cleanup 함수 실행
+
+      ![alt text](./img/useEffect%20cleanup%20cur%20render%20useEffect.png)
+
+      위와 같은 코드에서 text가 변경되더라도 결국 timer에 의해 찍히는 text는 가장 마지막에 입력창에 위치했던 문자열
+
+      예를 들어, a를 입력하고 그후 bc를 추가적으로 입력하면 마지막에 timer에 의해 찍히는 로그는 abc (a, ab에 대한 useEffect는 사라졌기 때문)
+
+  - 각 effect는 effect 당시의 Component에 대한 snapshot을 가지고 있다.
+
+      위의 예시에서 clearTimeout을 지우고 문자열 입력창에 abcde를 입력하면 타이머에의해 'a', 'ab', 'abc', 'abcd', 'abcde'가 차례대로 찍힌다.
+
+  - useEffect에서 데이터를 fetch하는 것이 가지는 단점
+
+    1. server에서는 useEffect를 사용할 수 없다.
+
+        그렇기 때문에 HTML를 불러온 다음 화면에 필요한 데이터 및 js를 불러와야 하기에 비효율적
+
+    2. useEffect에서 데이터를 불러오는 것은 굉장히 느린 사용자 경험 제공 가능
+
+        Parent - Child Component가 있을 때, parent가 render될 때와 child가 render될 때 각각 데이터를 불러오는 것은 모든 Component가 render된 후 한번에 데이터를 불러오는 것보다 비효율적
+
+    3. useEffect에서 데이터를 불러오는 것은 데이터를 미리 불러오지 못했거나 cache화시키기 못했다는 의미
+
+    4. fetch api 사용 시 여러 handler들이 race condition을 해결하기 위한 boilerplate 코드가 있을 수 있다.
+
+    이를 해결하기 위한 React 개발자들의 추천
+
+      1. framework를 사용한다면, 내부에 개발되어 있는 fetching 매커니즘 활용
+
+      2. 아니면, client-side에서 캐시를 활성화할 수 있는 기능 만들기
+
+          활용하면 좋은 open source library: React Query, userSWR, React Router
+
+      
+
   <br/>
 
   ### You Might Not Need an Effect
