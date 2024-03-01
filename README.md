@@ -83,7 +83,7 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
   부모 Component가 update되면, 본인 및 그 하위의 모든 자식 컴포넌트들이 re-render 된다. 
 
-  -> [핵심] 
+  -> **핵심** 
   
   ✨`약 2개 이상의 자식들로부터 데이터를 가져오거나 자식들끼리 상호작용하는 것을 원한다면, 그 자식들의 상위 Component인 부모 Component에 상태를 선언하고 내려주기 
 
@@ -100,7 +100,7 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
     
     - Component: Game <- Board <- Square
 
-    - [핵심] ✨`ame이 유일하게 statue를 가지는 Component -> 게임 데이터가 우측의 button과 좌측의 board간 연동을 위한 "최소 공통 부모"이기 때문 ✨`
+    - **핵심** ✨`ame이 유일하게 statue를 가지는 Component -> 게임 데이터가 우측의 button과 좌측의 board간 연동을 위한 "최소 공통 부모"이기 때문 ✨`
     - 부모에서 자식에게 Handler를 넘겨주고, 자식에서 handler를 부착하고 이벤트를 발생시키면 부모의 statue(상태값) 업데이트 
 
       -> 자동으로 자식들도 상태 업데이트
@@ -209,13 +209,13 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
     ![Alt text](./img/spread_props.png)
 
-  - [핵심] ✨`래와 같이 부모 자식간에 JSX 태그로 nested 되어 있다면 부모 Component 자식에 대한 값을 children 인자로 받을 수 있다. 
+  - **핵심** ✨`래와 같이 부모 자식간에 JSX 태그로 nested 되어 있다면 부모 Component 자식에 대한 값을 children 인자로 받을 수 있다. 
 
     ![Alt text](./img/nestedComp.png)    ![Alt text](./img/childrenProps.png)
 
     ✨`즉, 부모 Component는 상위 Component에 의해서 임의의 자식 Component를 가질 수 있다는 의미. 
 
-  - [핵심] ✨`리액트를 잘 설계하기 위해서는 Component의 재사용성과 예측 가능성에 초점을 두고 개발 필요
+  - **핵심** ✨`리액트를 잘 설계하기 위해서는 Component의 재사용성과 예측 가능성에 초점을 두고 개발 필요
 
     그렇기 위해서, 자식 Component에서는 부모 Component로부터 받은 props를 절대 변경해서 사용하면 안된다.
 
@@ -429,7 +429,7 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
 - state의 setter는 현재의 state를 다음 render에 적용할 수 있는 값으로 변경할 뿐이다. 
 
-  [핵심] ✨`현재 진행되는 render에서 여러번의 state의 setter 호출은 마지막의 setter만 state에 영향을 준다.
+  **핵심** ✨`현재 진행되는 render에서 여러번의 state의 setter 호출은 마지막의 setter만 state에 영향을 준다.
 
   ![alt text](./img/call%20state%20setter%20multiple.png)
 
@@ -509,7 +509,7 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
   이 코드에서 버튼을 누른다고 해서 render가 실행되지 않고 backgroud에서 state의 값만 변경되기 때문에 코드의 버그를 알아차리기 매우 어렵게 된다. 
 
--  [핵심] ✨`객체 state의 특정 property만 변경시켜서 state에 반영하고 싶다면, 새로운 객체를 만들어서 setter에 적용시키기!
+-  **핵심** ✨`객체 state의 특정 property만 변경시켜서 state에 반영하고 싶다면, 새로운 객체를 만들어서 setter에 적용시키기!
 
 - 만약 객체의 특정 property만 변경되고 나머지 property는 이전 값과 동일하다면 ... 문법(spread syntax) 사용하기
 
@@ -635,7 +635,7 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
   React는 직접적으로 개발자가 UI를 조작하기 보단 "어떤 UI를 표시하고 싶은지"에 집중
 
-  [핵심] ✨`React는 state 값을 사용해서 UI를 가변적으로 표시
+  **핵심** ✨`React는 state 값을 사용해서 UI를 가변적으로 표시
 
   Ex. isEdit / isSubmitting 와 같은 상태
 
@@ -742,11 +742,11 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
   - Component의 state는 Component에서가 아닌 React단에 존재하며 render tree를 가지고 어느 Component에 속한 state인지 파악
 
-    [핵심] ✨`Component는 render tree의 어디서 속했는지에 따라 다른 Component로 파악된다
+    **핵심** ✨`Component는 render tree의 어디서 속했는지에 따라 다른 Component로 파악된다
 
     => 같은 위치에 같은 Component가 온다면 render X
 
-    [핵심] ✨`만약 같은 Component가 render tree의 같은 자리에서 사라졌거나 동일한 자리에 다른 Component가 온다면 이전 Component는 보존되지 않는다.
+    **핵심** ✨`만약 같은 Component가 render tree의 같은 자리에서 사라졌거나 동일한 자리에 다른 Component가 온다면 이전 Component는 보존되지 않는다.
 
     아래의 예시에서 같은 JSX 태그 변수를 활용하고 있지만 render tree에서 다른 위치에 위치하기 떄문에 state가 각각 관리되고 있다.
 
@@ -813,7 +813,7 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
     2. Component에 다른 key를 삽입하기 
 
-        [핵심] ✨`key를 Component에 props로 삽입해준다면, 동일한 Component type의 같은 key 값을 가진 Component라면 어느 곳에 위치하던 같은 Component로 판단
+        **핵심** ✨`key를 Component에 props로 삽입해준다면, 동일한 Component type의 같은 key 값을 가진 Component라면 어느 곳에 위치하던 같은 Component로 판단
 
         아래와 같이 같은 위치에 선언된 Component일지라도 key 값이 다르기 때문에 다른 Component로 판단
 
@@ -992,7 +992,7 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
     - state 관리: App이 커짐에 따라 많은 state들이 App의 최상단에 위치 -> context와 reducer를 함께 사용한 코드 사용으로 효율성 증대
 
-    [핵심] ✨`일반적으로 서로 다른 tree에서 멀리 위치한 Component끼리 동일한 정보가 필요할 때 Context를 사용 
+    **핵심** ✨`일반적으로 서로 다른 tree에서 멀리 위치한 Component끼리 동일한 정보가 필요할 때 Context를 사용 
 
   <br/>
 
@@ -1025,7 +1025,7 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 <details>
   <summary style="font-size: 25px">Section 5</summary>
 
-  ## [핵심] ✨ 이 단원에 나오는 기술들은 모든 특수한 경우에 사용해야 하는 기술들로, 과용해서는 안된다.
+  ## **핵심** ✨ 이 단원에 나오는 기술들은 모든 특수한 경우에 사용해야 하는 기술들로, 과용해서는 안된다.
 
   ### Referencing Values with Refs
 
@@ -1127,7 +1127,7 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
     ![alt text](./img/flushSync2.png)
 
-  - [핵심] ✨ DOM node를 가지고 수동적으로 변화를 주지 않기. focus, scrolling과 같은 api만 활용할 것
+  - **핵심** ✨ DOM node를 가지고 수동적으로 변화를 주지 않기. focus, scrolling과 같은 api만 활용할 것
 
     예외적으로 React가 update하지 않는 부분의 DOM element에 대해서는 수정 가능(but 항상 주의 필요)
 
@@ -1207,7 +1207,7 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
     이는 application의 최상단에 React.StrictMode를 사용하기 때문. 제거하면 정상적으로 1번만 호출됨
 
-    [핵심] ✨ 개발에서 useEffect를 2번 호출하는 문제를 해결하는 방법은 주로 setup(1) -> cleanup(3) -> 다시 setup(1)하는 방식
+    **핵심** ✨ 개발에서 useEffect를 2번 호출하는 문제를 해결하는 방법은 주로 setup(1) -> cleanup(3) -> 다시 setup(1)하는 방식
 
     - network로 request를 송신하는 경우, JS의 abortController를 호출하거나 ignore flag 활용
 
@@ -1225,7 +1225,7 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
         해당 코드는 사용자가 구매 버튼을 클릭했을 때만 작동해야 하기 때문에 위치 바꾸기
 
-  - [핵심] ✨ useEffect는 다음 render를 진행할 때, 이전 render에서의 모든 effect를 삭제시킨다.
+  - **핵심** ✨ useEffect는 다음 render를 진행할 때, 이전 render에서의 모든 effect를 삭제시킨다.
 
       즉, 다음 useEffect 호출때마다 이전 useEffect의 cleanup 함수 실행
 
@@ -1261,11 +1261,110 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
           활용하면 좋은 open source library: React Query, userSWR, React Router
 
-      
-
   <br/>
 
   ### You Might Not Need an Effect
+
+  - useEffect가 필요하지 않는 상황
+
+    1. render 시 데이터를 변형해야 하는 경우
+      
+      render된 후 useEffect를 호출하여 데이터를 정재한 후 다시 render를 호출시키는 것은 비효율적
+
+      state 및 props update 시 Component이 상단에서 데이터를 정재하는 것을 추천
+
+    2. 사용자 이벤트를 처리해야 하는 경우
+
+      useEffect에 event handler를 넣는다면 사용자가 어떤 행동을 했는지 알 수 없다.
+
+    **핵심** ✨ 다시 한번 강조하지만, useEffect는 외부 시스템과의 동기화를 위해서 사용되어야 한다.
+
+  
+  - 불필요한 useEffect를 제거하는 방법
+
+    1. props나 state를 가지고 state를 update하기
+
+        기존에 존재하는 state나 props로 다른 state를 만들 수 있다면, 만들어질 수 있는 state는 삭제시키기
+
+    2. 비용이 많이 드는 계산은 캐시화 시키기
+
+        시간 & 자원이 많이 소요되는 계산은 useMemo를 사용해서 캐시화
+
+        ![alt text](./img/cache%20cost%20expensive%20calcuation.png)
+
+        위의 코드는 todos나 filter가 달라지지 않는다면 이전에 저장해두었던 결과를 반환
+
+        ** 비용이 많이 드는 계산의 기준: 평균적인 계산 시간이 1ms 이상일 때
+
+    3. props이 변경되었을 때 모든 state 초기화
+
+        아래와 같이, ProfilePage로 navigate 된 후 다른 ProfilePage로 navigate되면 comment가 reset되지 않음
+
+        ![alt text](./img/reset%20state%20when%20prop%20change1.png)
+
+        이를 해결하기 위해, inner component를 만들고 key로 userId 변경하면 항상 Component가 unmount & mount 되기 때문에 정상 작동
+
+        ![alt text](./img/reset%20state%20when%20prop%20change2.png)
+
+    4. prop이 변경되었을 때 몇가지의 state 변경 방법
+
+        List에 다른 prop이 전달된 경우 selected를 모두 null로 초기화하고 싶은 예제 코드
+
+        useEffect를 사용한다면 1. 임시값으로 render 2. useEffect 호출로 re-render 프로세스로 실행됨으로 비효율적
+
+        ![alt text](./img/adjust%20some%20state%20when%20prop%20change1.png)
+
+        * **핵심** ✨ render 중에 state가 변경되면, React는 반환된 JSX를 버리고 다시 render 시작.
+
+          React는 수많은 render를 방지하기 위해 render 중인 Component의 state만 변경하도록 함.
+
+        따라서, 이전 props를 저장하고 있는 state를 하나 추가하고 비교를 통해 selected를 초기화할 것인지 결정
+
+        아래의 코드가 효율적인 이유
+        
+        - props가 변경되어 setSelection이 호출되었을 때 List의 하위 Component를 render하기 전에 다시 List의 re-render가 실행되기 때문에 
+
+        - 첫번째 코드는 임의의 값으로 List 및 하위 Component들이 초기화되기 때문에 비효율
+
+        ![alt text](./img/reset%20state%20when%20prop%20change2.png)
+
+    5. event handler간 로직 공유
+
+      코드가 event handler / useEffect에 위치해야 하는지 모르겠다면, 그 코드가 왜 동작하는 지 물어보자
+
+      - 사용자가 행동을 해서 동작하는 코드라면 event handler
+
+      - **핵심** 사용자에게 보여졌기 때문에 동작하는 코드라면 useEffect
+
+    6. effect chain을 발생시키기 않기 
+    
+      useEffect에서 다른 state를 update 시켜주어 연속적인 effect chain이 발생하면, 비효율적일 뿐만 아니라 유지보수에도 어려움이 생김(Ex. 중간에 새로운 process 추가)
+
+      ![alt text](./img/effect%20chain1.png)
+
+      따라서 effect를 제거하고 process ode를 Component단에 기재
+
+      ![alt text](./img/effect%20chain2.png)
+
+      그치만 update된 값에 따라 다른 값들을 보여주어야 하는 것과 같이 effect chain이 필요한 경우도 있다.
+
+      Ex. 여러개의 dropdown이 있는데, 이전에 선택한 dropdown 값이 다른 dropdown의 값을 결정하는 경우
+
+    7. 자식 Component에서 부모 Component에게 state 변경 알리기
+
+      아래 코드의 문제점
+      
+      1. 자식 Component에서 isOn state가 update됨에 따라 render
+
+      2. onChange가 호출되어 부모 state가 update & render
+
+      3. 다시 자식 Component render => 비효율적
+
+      ![alt text](./img/notify%20state%20change%20to%20parent1.png)
+
+      아래 코드의 경우, 동일한 batch에서 state가 update되기 때문에 한번의 render만 호출
+
+      ![alt text](./img/notify%20state%20change%20to%20parent2.png)
 
   <br/>
 
