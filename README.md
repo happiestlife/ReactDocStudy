@@ -1366,13 +1366,90 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
       ![alt text](./img/notify%20state%20change%20to%20parent2.png)
 
+    8. 데이터의 흐름은 항상 Parent -> Child Component
+
+    9. 데이터 불러오기
+
+        아래의 코드는 각각의 query와 page마다 호출되는 request들에 대해서 race condition 문제 야기
+
+        ![alt text](./img/data%20fetch1.png)
+
+        이 문제를 해결하기 위해서는 useEffect에서 cleanup 함수를 명시
+
+        ![alt text](./img/data%20fetch2.png)
+
+
+        race condition은 response를 캐싱하는 방법, 데이터를 서버로부터 불러오는 방법, network waterfall을 방지하는 방법 등 많은 문제 야기
+
+        따라서 framework를 사용중이라면, framework의 data fectching 매커니즘 활용
+
+        framework을 사용하지 않는다면, custom hook을 작성
+
+        ![alt text](./img/data%20fetch3.png)
+
   <br/>
 
   ### Lifecycle of Reactive Effects
 
+  - useEffect를 작성할 때에는 Component 관점이 아닌 Effect 관점으로 작성
+
+    Component 관점: effect의 동작 시점(mount, update, unmount)
+
+    Effect 관점: 동기화의 시작과 종료 사이클
+
+  - strict mode에서는 useEffect의 모든 시점을 한번씩 호출하면서 start sync ~ end sync까지 동작이 잘 작동하는지 확인
+
+  - React가 useEffect 호출을 언제하는지 아는 방법
+
+    render가 끝난 후, 의존성으로 전달한 배열의 값을 이전 render때와 현재 render 시점으로 비교해서 다르면 호출
+
+  - 각각의 effect 하나의 동기화 과정을 나타내어야 한다.
+
+    아래의 코드에서 첫번째 effect는 log를, 두번째 effect는 connection을 담당
+  
+    ![alt text](./img/effect%20represent%20separate%20sync1.png)
+
+  - 변경되지 않는 변수에 대해서는 의존성에 명시할 필요가 없다.
+
+    serverUrl과 같이 변경되지 않는 값에 대해서는 의존성을 명시하지 않아도 된다.
+
+    ![alt text](./img/not%20need%20to%20%20include%20dependency.png)
+
+    대신 props, state, component 안에 선언된 변수와 같은 경우에는 변경될 수 있음으로 의존성에 사용하면 유용
+
+    - 전역 변수(Ex. Ref)와 같은 mutable한 변수는 의존성에 포함될 수 없다.
+
+      이런 변수들은 React의 제어범위에 들어있지않기 때문에 값이 변경되더라도 re-render가 호출되지는 않는다. 
+
+      또한 render 중에 값이 변경될 수 있기 때문에 effect를 pure하게 만들지 못함
+
+  - ESlint가 useEffect에서 사용하는 reactive한 변수 중 dependency로 선언되지 않는 변수를 검사하고 있다면 오류 발생시킴
+
+    Component안에 선언되었더라도 절대 변경되지 않는 값에 대해서는 오류를 발생시키지 않는다. 
+
+    - 아래와 같이 reative하지 않은 변수에 대해서는 의존성 명시를 하지 않아도 오류 발생 X
+
+      ![alt text](./img/include%20reactive%20value%20in%20dependency1.png)
+
+      하지만 reactive한 변수를 useEffect 코드 안에 사용했을 경우, lint가 오류 발생
+
+      ![alt text](./img/include%20reactive%20value%20in%20dependency2.png)
+
+    ** lint가 추천한 오류 수정 로직을 적용할 경우 가끔 loop를 만든다. 그럴 경우 lint를 무시하지 말고 다른 해결 방법 모색
+
+    ** useState로부터 반환된 setter와 같이 non-reactive한 변수들도 의존성에 포함될 수 있다.
+
+  - 의존성으로 reactive 변수 포함시 주의할 점
+
+    1. 각각의 effect가 독립된 process를 처리하고 있는지 확인
+
+    2. function과 object를 의존성으로 포함 X
+
   <br/>
 
   ### Separating Events from Effects
+
+
 
   <br/>
 
