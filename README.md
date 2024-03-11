@@ -1449,7 +1449,46 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
   ### Separating Events from Effects
 
+  - Component의 props, state, 내부에 선언된 변수들은 reactive 값으로 지칭
 
+    reactive란? 특정 값이 변경됨에 따라 특정 코드를 실행시킨다. 
+
+    반대로 non-reactive란? 사용자의 특정 행동에 따라 특정 코드를 실행시킨다.
+
+  - 종종 non-reactive에 대한 실행 코드와 reactive에 대한 실행 코드가 겹칠 때가 있다.
+
+    상황: roomId가 변경될 때마다 연결이 변경되어야 하고 연결이 됐을 때 전달된 theme 색깔로 notification이 떠야한다.
+
+    문제: 사용자가 theme 색깔을 변경하였을 때도 연결이 변경되고 notificaion이 뜬다.
+    
+    ![alt text](./img/react%20and%20non%20react%20code1.png)
+
+    이런 경우의 해결책들 <b>(아직 안정적인 버전에는 배포되지 않음)</b>
+
+    - effect event 선언하기
+
+        아래와 같이, non-reactive에 대한 처리 로직을 useEffectEvent()로 wrap 해주기
+
+        ![alt text](./img/effect%20event.png)
+
+        useEffectEvent()로 감싸지 않아도 될 것 같지만 감싸지 않으면 해당 함수가 reactive 값이 되기 때문에(이유: reactive한 변수를 사용) 의존성에 포함해야 한다.
+
+        effect event 코드들은 주로 onMessage, onTick, onVisit, or onConnected와 같은 이벤트 핸들링 코드에 적합
+        <-> 
+        onMount, onUpdate, onUnmount, or onAfterRender 등의 이벤트 핸들링에서는 reactive한 변수를 사용할 가능성이 높음으로 적절하지 않음
+    
+    - effect event 주의 사항
+    
+      1. effect 내부에서만 사용 가능
+
+      2. 다른 Hook이나 Component에 전달 불가능
+
+  ** linter를 주석으로 강제로 막으면 안되는 이유
+
+  - React에서 앞으로 effect에서 depedency를 선언하지 않고 사용하더라도 오류를 띄우지 않을 예정이기 때문 -> 버그 야기
+
+
+  
 
   <br/>
 

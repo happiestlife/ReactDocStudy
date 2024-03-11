@@ -150,4 +150,4 @@ const UseEffectSnapshotComp = () => {
         {show && <Playground />}
       </>
     );
-  }
+};
