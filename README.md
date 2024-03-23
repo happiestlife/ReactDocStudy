@@ -1487,12 +1487,58 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
   - React에서 앞으로 effect에서 depedency를 선언하지 않고 사용하더라도 오류를 띄우지 않을 예정이기 때문 -> 버그 야기
 
-
-  
-
   <br/>
 
   ### Removing Effect Dependencies
+
+  - Effect에서 불필요한 dependency를 줄이는 방법
+
+    1. 사용자의 상호작용으로 인해 발생하는 코드들을 effect에서 제거하기 
+
+        ![alt text](./img/remove%20effect%20with%20user%20interaction.png)
+
+        위의 코드에서는 /api/register로 데이터를 전송하는 코드를 submit 버튼 클릭을 처리하는 이벤트 handler로 옮기기
+
+    2. 하나의 effect에서 2개 이상의 sync 코드 돌리지 않기
+
+        -> 각각의 effect는 독립적인 sync 코드로 구성하기
+
+    3. effect에서 다음 state를 계산하기 위해 현재 state를 읽는 경우, updater function 사용하기  
+
+        다음과 같은 코드가 있을 때, message가 전달될 때마다 connection이 재연결된다. (dependency에 message가 있기 때문) 
+
+        ![alt text](./img/remove%20effect%20with%20updater%20func1.png)
+
+        그 해결책으로 state setter에 updater function을 넣고 dependency에서 message를 제거
+
+        ![alt text](./img/remove%20effect%20with%20updater%20func2.png)
+
+    4. effect에서 reactive한 value를 사용하지만 해당 value의 값이 변경되어도 effect가 동작하지 않기를 원한다면, useEffectEvent 사용 (아직 안정 버전에는 X)
+
+        useEffectEvent함수로 값이 변경되어도 effect가 동작하지 않길 바라는 변수들을 사용한 코드를 wrap 해줌으로써 활용
+
+        ![alt text](./img/remove%20effect%20dpdc%20with%20effectEvent1.png)
+
+        혹은 아래와 같이 props로 event handler가 전달된 경우 useEffectEvent로 감싸줌으로써 re-connect가 발생하지 않도록 방지
+
+        ![alt text](./img/remove%20effect%20dpdc%20with%20effectEvent2.png)
+
+        ![alt text](./img/remove%20effect%20dpdc%20with%20effectEvent3.png)
+
+    5. dependency에 object / function 사용 지양하기
+
+        Component 내부에, effect 외부에 생성되는 object / function은 항상 새로운 객체 / 함수를 의미하기 때문 항상 re-render 작동
+
+        ![alt text](image.png)
+
+        해결책
+
+        1) Component 외부에 object / function 선언하기 (외부에 위치하기 때문에 항상 고정적인 값을 갖음)
+
+        2) effect 내부에 object / function 선언
+
+        3) props로 object가 전달된 경우, 객체를 해제하고 사용하기
+
 
   <br/>
 
