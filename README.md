@@ -1529,7 +1529,7 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
         Component 내부에, effect 외부에 생성되는 object / function은 항상 새로운 객체 / 함수를 의미하기 때문 항상 re-render 작동
 
-        ![alt text](image.png)
+        ![alt text](./img/avoid%20dependency%20with%20object%20and%20function%20type.png)
 
         해결책
 
@@ -1539,10 +1539,46 @@ URL : https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
         3) props로 object가 전달된 경우, 객체를 해제하고 사용하기
 
-
   <br/>
 
   ### Reusing Logic with Custom Hooks
 
+  - React 개발자는 custom hook을 개발함으로써 중복된 코드를 제거할 수 있고, hook의 기능을 how가 아닌 what에 초점을 둘 수 있다는 장점 소유
+
+  - 특징
+
+      1. hook의 이름은 use로 시작 (관습)
+
+          만약 linter가 React에 맞게 설정되어 있는 경우, use로 시작하지 않으면 hook에서 useState, useEffect를 사용할 수 없도록 한다.
+
+      2. 동일한 hook을 여러번 호출해도 그 안의 값들(state 등)은 서로 독립적이다 -> 로직만 공유하고 state 등은 공유 X
+
+      3. Component가 re-render될 때, hook도 가장 최신의 parameter를 받아 동작한다.
+
+  - custom hook을 작성해야 할 적절한 상황
+    
+      - Component가 외부 시스템과 연동하거나 built-in API로는 해결하지 못하는 상황
+
+      - 각 custom hook이 명확한 목적성을 가지고 사용되어야 함
+
+      - 반대로 아래의 코드 같이 useEffect의 대안책으로는 사용하지 않기
+
+        ![alt text](./img/avoid%20custom%20hook%20case1.png)
+
+  - custom hook의 장점
+
+      1. [**핵심**] Component를 작성할 때 구현 방식(how)이 아닌 어떤 의도(what)로 로직이 구성됐는지 집중할 수 있게 해준다.
+
+      2. effect에서의 데이터를 흐름을 명시적으로 표시
+
+      3. react에 새로운 기술이 생겼을 때, component를 수정하지 않고 적용 가능
+
+  - custom hook 제작 시 react 개발자가 자체적으로 외부 시스템을 만들어서 custom hook을 효과적으로 사용할 수 있게 만들 수 있다.
+
+    아래의 코드에서 FadeInAnimation을 외부 시스템인 것처럼 만들면서 custom hook 작성의 타당성 부여
+
+    ![alt text](./img/good%20custom%20hook1.png)
+
+    ![alt text](./img/good%20custom%20hook2.png)
   <br/>
 </details>
